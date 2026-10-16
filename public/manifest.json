@@ -1,0 +1,56 @@
+{
+  "id": "/",
+  "name": "STUDSPOT Campus Marketplace",
+  "short_name": "STUDSPOT",
+  "description": "The premier peer-to-peer campus marketplace, hostel finder, gig board, and local vendor directory for Kenyan university comrades.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#F3B71B",
+  "background_color": "#121212",
+  "categories": ["shopping", "education", "lifestyle"],
+  "icons": [
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Student Hostels",
+      "short_name": "Hostels",
+      "description": "Find verified bedsitters, single rooms & apartments near campus",
+      "url": "/?tab=hostel",
+      "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Campus Marketplace",
+      "short_name": "Buy & Sell",
+      "description": "Buy & sell laptops, electronics, furniture and textbooks",
+      "url": "/?tab=marketplace",
+      "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Post a Listing",
+      "short_name": "Post Listing",
+      "description": "Advertise your item or room for KSh 80",
+      "url": "/?action=post",
+      "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192" }]
+    }
+  ]
+}

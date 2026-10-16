@@ -1,0 +1,1 @@
+peer-to-peer university campus marketplace and community platform designed for Kenyan college and university students. It  allows students and local vendors to buy/sell items, advertise housing and hostels, post part-time job opportunities/gigs, and highlight local campus businesses

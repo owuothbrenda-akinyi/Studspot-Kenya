@@ -31,33 +31,17 @@ export const PaymentInstructionScreen: React.FC<PaymentInstructionScreenProps> =
 }) => {
   if (!isOpen || !listing) return null;
 
-  const [copiedAccount, setCopiedAccount] = useState(false);
-  const [copiedPaybill, setCopiedPaybill] = useState(false);
   const [copiedTill, setCopiedTill] = useState(false);
   const [mpesaCode, setMpesaCode] = useState(listing.mpesaRef || '');
   const [isSimulatingStk, setIsSimulatingStk] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(listing.isFeePaid);
 
   const tillNumber = '1823325';
-  const paybillNumber = '400200';
-  const accountNumber = `STUDSPOT-${listing.id.substring(0, 8).toUpperCase()}`;
 
   const handleCopyTill = () => {
     navigator.clipboard?.writeText(tillNumber);
     setCopiedTill(true);
     setTimeout(() => setCopiedTill(false), 2000);
-  };
-
-  const handleCopyAccount = () => {
-    navigator.clipboard?.writeText(accountNumber);
-    setCopiedAccount(true);
-    setTimeout(() => setCopiedAccount(false), 2000);
-  };
-
-  const handleCopyPaybill = () => {
-    navigator.clipboard?.writeText(paybillNumber);
-    setCopiedPaybill(true);
-    setTimeout(() => setCopiedPaybill(false), 2000);
   };
 
   const handleSimulateStk = () => {
@@ -136,76 +120,41 @@ export const PaymentInstructionScreen: React.FC<PaymentInstructionScreenProps> =
                 <span className="bg-[#008938] text-white text-xs font-black font-mono px-2 py-0.5 rounded">
                   LIPA NA M-PESA
                 </span>
-                <span className="text-xs font-bold text-white">Till (Buy Goods) &amp; PayBill</span>
+                <span className="text-xs font-bold text-white">Buy Goods (Till Number)</span>
               </div>
               <span className="text-xs font-mono font-bold text-emerald-400">KSh 80 ONLY</span>
             </div>
 
-            {/* Primary Option: Buy Goods Till */}
-            <div className="p-3 bg-[#1A1A1A] rounded-xl border border-emerald-500/40 space-y-1">
+            {/* Buy Goods Till Details */}
+            <div className="p-3.5 bg-[#1A1A1A] rounded-xl border border-emerald-500/50 space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-[11px] font-bold text-emerald-400 uppercase tracking-wide">
-                  Option 1: Buy Goods Till (Recommended)
+                  Buy Goods &amp; Services Till
                 </span>
                 <button
                   type="button"
                   onClick={handleCopyTill}
-                  className="text-[11px] text-[#F3B71B] hover:text-white font-bold flex items-center gap-1"
+                  className="text-xs text-[#F3B71B] hover:text-white font-bold flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-neutral-800 hover:bg-neutral-700 transition-colors"
                 >
                   {copiedTill ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                   <span>{copiedTill ? 'Copied 1823325' : 'Copy Till'}</span>
                 </button>
               </div>
-              <div className="flex items-baseline justify-between pt-0.5">
+              <div className="flex items-baseline justify-between pt-1 border-t border-neutral-800">
                 <div>
-                  <div className="text-[10px] text-neutral-400">Till Number</div>
-                  <div className="font-mono font-black text-base text-white tracking-wide">{tillNumber}</div>
+                  <div className="text-[10px] text-neutral-400 font-medium">Till Number</div>
+                  <div className="font-mono font-black text-xl text-white tracking-wider">{tillNumber}</div>
                 </div>
                 <div className="text-right">
-                  <div className="text-[10px] text-neutral-400">Account / Store</div>
+                  <div className="text-[10px] text-neutral-400 font-medium">Account / Store</div>
                   <div className="text-xs font-bold text-[#F3B71B]">STUDSPOT KENYA</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Secondary Option: PayBill */}
-            <div className="grid grid-cols-2 gap-2 pt-1">
-              <div className="p-2.5 bg-[#1A1A1A] rounded-xl border border-neutral-800">
-                <div className="text-[10px] text-neutral-400 font-medium">Option 2: PayBill No</div>
-                <div className="flex items-center justify-between mt-1">
-                  <span className="font-mono font-bold text-sm text-white">{paybillNumber}</span>
-                  <button
-                    type="button"
-                    onClick={handleCopyPaybill}
-                    className="text-[10px] text-[#F3B71B] hover:text-white flex items-center gap-0.5"
-                  >
-                    {copiedPaybill ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
-                    <span>{copiedPaybill ? 'Copied' : 'Copy'}</span>
-                  </button>
-                </div>
-              </div>
-
-              <div className="p-2.5 bg-[#1A1A1A] rounded-xl border border-neutral-800">
-                <div className="text-[10px] text-neutral-400 font-medium">Account No</div>
-                <div className="flex items-center justify-between mt-1">
-                  <span className="font-mono font-bold text-xs text-white truncate max-w-[85px]">
-                    {accountNumber}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={handleCopyAccount}
-                    className="text-[10px] text-[#F3B71B] hover:text-white flex items-center gap-0.5"
-                  >
-                    {copiedAccount ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
-                    <span>{copiedAccount ? 'Copied' : 'Copy'}</span>
-                  </button>
                 </div>
               </div>
             </div>
 
             <p className="text-[11px] text-neutral-300 leading-normal">
               1. Open M-Pesa &gt; Lipa na M-Pesa &gt; <strong>Buy Goods and Services</strong>.<br/>
-              2. Enter Till Number <strong className="text-white font-mono">{tillNumber}</strong> (or PayBill <strong className="text-white font-mono">{paybillNumber}</strong> / Acc: <strong className="text-white font-mono">{accountNumber}</strong>).<br/>
+              2. Enter Till Number <strong className="text-white font-mono">{tillNumber}</strong> (STUDSPOT KENYA).<br/>
               3. Enter Amount <strong className="text-white font-mono">KSh 80</strong>, confirm with your M-Pesa PIN.
             </p>
           </div>

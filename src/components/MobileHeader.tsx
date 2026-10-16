@@ -16,7 +16,9 @@ import {
   Check,
   Share2,
   Download,
-  History
+  History,
+  Clock,
+  X
 } from 'lucide-react';
 import { University, User, InstitutionType } from '../types';
 import { UNIVERSITIES } from '../data/seedData';
@@ -70,6 +72,61 @@ export const MobileHeader: React.FC<MobileHeaderProps> = ({
   const [customTypedCategory, setCustomTypedCategory] = useState<InstitutionType>('university');
 
   const [availableCampuses, setAvailableCampuses] = useState<University[]>(() => getAllCampuses());
+
+  // Recent Searches state: tracks the last 3 unique searches performed by the student
+  const [recentSearches, setRecentSearches] = useState<string[]>(() => {
+    try {
+      const saved = localStorage.getItem('studspot_recent_searches');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed.slice(0, 3);
+        }
+      }
+    } catch {
+      // ignore
+    }
+    return ['Calculus 7th Edition', 'Bedsitter near Gate B', 'Gas cylinder 6kg'];
+  });
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+
+  const saveSearchToRecent = (term: string) => {
+    const clean = term.trim();
+    if (!clean) return;
+    setRecentSearches(prev => {
+      const filtered = prev.filter(s => s.toLowerCase() !== clean.toLowerCase());
+      const updated = [clean, ...filtered].slice(0, 3);
+      try {
+        localStorage.setItem('studspot_recent_searches', JSON.stringify(updated));
+      } catch {
+        // ignore
+      }
+      return updated;
+    });
+  };
+
+  const removeRecentSearch = (e: React.MouseEvent, termToRemove: string) => {
+    e.stopPropagation();
+    setRecentSearches(prev => {
+      const updated = prev.filter(s => s !== termToRemove);
+      try {
+        localStorage.setItem('studspot_recent_searches', JSON.stringify(updated));
+      } catch {
+        // ignore
+      }
+      return updated;
+    });
+  };
+
+  const clearAllRecentSearches = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setRecentSearches([]);
+    try {
+      localStorage.removeItem('studspot_recent_searches');
+    } catch {
+      // ignore
+    }
+  };
 
   React.useEffect(() => {
     const handleUpdate = () => {
@@ -460,13 +517,21 @@ export const MobileHeader: React.FC<MobileHeaderProps> = ({
         </div>
       </div>
 
-      {/* Search Bar Row */}
+      {/* Search Bar Row with Recent Searches Dropdown */}
       <div className="max-w-7xl mx-auto px-4 pb-2.5 pt-0.5">
         <div className="relative">
           <Search className="w-4 h-4 text-neutral-500 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
           <input
             type="text"
             value={searchQuery}
+            onFocus={() => setIsSearchFocused(true)}
+            onBlur={() => setTimeout(() => setIsSearchFocused(false), 220)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && searchQuery.trim()) {
+                saveSearchToRecent(searchQuery);
+                setIsSearchFocused(false);
+              }
+            }}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder="Search verified items, hostels near Gate C, student gigs, chapati delivery..."
             className="w-full pl-10 pr-10 py-2 bg-[#242424] focus:bg-[#2c2c2c] text-white text-xs sm:text-sm rounded-xl border border-neutral-700/80 focus:border-[#F3B71B] outline-none transition-all placeholder:text-neutral-500"
@@ -479,6 +544,99 @@ export const MobileHeader: React.FC<MobileHeaderProps> = ({
             >
               ×
             </button>
+          )}
+
+          {/* Recent Searches Dropdown (Last 3 Searches) */}
+          {isSearchFocused && (
+            <div 
+              className="absolute left-0 right-0 top-full mt-2 bg-[#1C1C1C] rounded-2xl border border-neutral-700/90 shadow-2xl p-3 z-50 animate-in fade-in slide-in-from-top-2 duration-150 backdrop-blur-md"
+              onMouseDown={(e) => e.preventDefault()}
+            >
+              {/* Header */}
+              <div className="flex items-center justify-between pb-2 border-b border-neutral-800">
+                <div className="flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5 text-[#F3B71B]" />
+                  <span className="text-[11px] font-bold text-neutral-300 uppercase tracking-wider">
+                    Recent Searches
+                  </span>
+                  <span className="text-[10px] bg-neutral-800 text-neutral-400 px-1.5 py-0.5 rounded-md font-mono">
+                    Last 3
+                  </span>
+                </div>
+
+                {recentSearches.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={clearAllRecentSearches}
+                    className="text-[10px] text-neutral-500 hover:text-neutral-300 transition-colors font-medium hover:underline"
+                  >
+                    Clear all
+                  </button>
+                )}
+              </div>
+
+              {/* Last 3 Recent Searches Items */}
+              {recentSearches.length > 0 ? (
+                <div className="py-1 space-y-1">
+                  {recentSearches.slice(0, 3).map((term, index) => (
+                    <div
+                      key={index}
+                      onClick={() => {
+                        onSearchChange(term);
+                        saveSearchToRecent(term);
+                        setIsSearchFocused(false);
+                      }}
+                      className="group flex items-center justify-between p-2 rounded-xl hover:bg-neutral-800 cursor-pointer transition-all border border-transparent hover:border-neutral-700"
+                    >
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <div className="w-6 h-6 rounded-lg bg-neutral-800/80 group-hover:bg-[#F3B71B]/15 flex items-center justify-center text-neutral-400 group-hover:text-[#F3B71B] transition-colors shrink-0">
+                          <History className="w-3.5 h-3.5" />
+                        </div>
+                        <span className="text-xs text-neutral-200 group-hover:text-white font-medium truncate">
+                          {term}
+                        </span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={(e) => removeRecentSearch(e, term)}
+                        className="p-1 rounded-md text-neutral-500 hover:text-rose-400 hover:bg-rose-500/10 transition-colors opacity-70 group-hover:opacity-100"
+                        title="Remove this search"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="py-3 text-center text-xs text-neutral-500">
+                  No recent searches yet. Press Enter after typing to save searches.
+                </div>
+              )}
+
+              {/* Popular Quick Suggestions */}
+              <div className="pt-2.5 mt-1 border-t border-neutral-800/80">
+                <div className="text-[10px] font-semibold text-neutral-400 uppercase tracking-wider mb-1.5 flex items-center gap-1">
+                  <Sparkles className="w-3 h-3 text-[#F3B71B]" />
+                  <span>Popular Student Searches</span>
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {['Calculus', 'Bedsitter', 'Cooker', 'HP Laptop', 'Phone repair'].map((item) => (
+                    <button
+                      key={item}
+                      type="button"
+                      onClick={() => {
+                        onSearchChange(item);
+                        saveSearchToRecent(item);
+                        setIsSearchFocused(false);
+                      }}
+                      className="text-[11px] px-2.5 py-1 rounded-lg bg-neutral-800/90 hover:bg-neutral-700 text-neutral-300 hover:text-white transition-colors border border-neutral-700/60"
+                    >
+                      {item}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
           )}
         </div>
       </div>

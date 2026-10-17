@@ -178,9 +178,12 @@ export const MobileHeader: React.FC<MobileHeaderProps> = ({
         >
           <div className="w-10 h-10 rounded-2xl overflow-hidden p-0.5 bg-neutral-950 border border-[#F3B71B]/50 shadow-md shadow-amber-950/30 group-hover:scale-105 transition-transform flex items-center justify-center shrink-0">
             <img
-              src="/src/assets/images/studspot_gold_icon_1792275165524.jpg"
+              src="/studspot-gold-icon.png"
               alt="STUDSPOT Official Logo"
               className="w-full h-full object-cover rounded-xl"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = '/logo.png';
+              }}
             />
           </div>
           <div>

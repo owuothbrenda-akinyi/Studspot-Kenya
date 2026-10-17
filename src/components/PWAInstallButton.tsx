@@ -50,7 +50,7 @@ export const PWAInstallModal: React.FC<PWAInstallModalProps> = ({ isOpen, onClos
         <div className="flex items-center gap-3.5 pt-1">
           <div className="w-14 h-14 rounded-2xl overflow-hidden p-0.5 bg-neutral-950 border-2 border-[#F3B71B]/60 shadow-xl shadow-amber-950/40 shrink-0 flex items-center justify-center">
             <img
-              src="/src/assets/images/studspot_gold_icon_1792275165524.jpg"
+              src="/studspot-gold-icon.png"
               alt="STUDSPOT Icon"
               className="w-full h-full object-cover rounded-xl"
             />
@@ -215,7 +215,7 @@ export const PWAInstallButton: React.FC<{ className?: string; variant?: 'button'
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl overflow-hidden bg-neutral-950 p-0.5 border border-[#F3B71B]/50 shrink-0">
               <img
-                src="/src/assets/images/studspot_gold_icon_1792275165524.jpg"
+                src="/studspot-gold-icon.png"
                 alt="STUDSPOT"
                 className="w-full h-full object-cover rounded-lg"
               />

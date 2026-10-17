@@ -27,7 +27,7 @@ export const StudspotLogo: React.FC<StudspotLogoProps> = ({
   const currentSize = sizeMap[size] || sizeMap.md;
 
   // The official gold and dark STUDSPOT logo
-  const logoImgSrc = '/src/assets/images/studspot_gold_icon_1792275165524.jpg';
+  const logoImgSrc = '/studspot-gold-icon.png';
 
   // Crisp representation of the gold & dark official logo
   const SvgMark = (

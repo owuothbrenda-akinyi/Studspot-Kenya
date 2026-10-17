@@ -154,7 +154,7 @@ export const SignUpModal: React.FC<SignUpModalProps> = ({
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-xl overflow-hidden p-0.5 bg-neutral-950 border border-[#F3B71B]/50 shadow-sm flex items-center justify-center shrink-0">
               <img
-                src="/src/assets/images/studspot_gold_icon_1792275165524.jpg"
+                src="/studspot-gold-icon.png"
                 alt="STUDSPOT Logo"
                 className="w-full h-full object-cover rounded-lg"
               />

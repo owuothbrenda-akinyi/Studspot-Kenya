@@ -464,7 +464,7 @@ export default function App() {
               <div className="flex items-center gap-3.5">
                 <div className="w-14 h-14 rounded-2xl overflow-hidden p-0.5 bg-neutral-950 border-2 border-[#F3B71B]/60 shadow-xl shadow-amber-950/40 shrink-0 hidden sm:flex items-center justify-center">
                   <img
-                    src="/src/assets/images/studspot_gold_icon_1792275165524.jpg"
+                    src="/studspot-gold-icon.png"
                     alt="STUDSPOT Official Logo"
                     className="w-full h-full object-cover rounded-xl"
                   />

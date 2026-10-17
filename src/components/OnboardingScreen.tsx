@@ -46,9 +46,12 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({
         <div className="p-6 pt-8 text-center space-y-3 bg-gradient-to-b from-[#252525] to-[#1A1A1A] border-b border-neutral-800">
           <div className="w-20 h-20 rounded-3xl overflow-hidden p-1 bg-neutral-950 border-2 border-[#F3B71B]/60 mx-auto shadow-2xl shadow-amber-950/40 flex items-center justify-center">
             <img
-              src="/src/assets/images/studspot_gold_icon_1792275165524.jpg"
+              src="/studspot-gold-icon.png"
               alt="STUDSPOT Official Logo"
               className="w-full h-full object-cover rounded-2xl"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = '/logo.png';
+              }}
             />
           </div>
           <div>

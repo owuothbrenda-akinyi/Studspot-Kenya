@@ -57,9 +57,9 @@ export const AdminApprovalModal: React.FC<AdminApprovalModalProps> = ({
         {/* Top Header */}
         <div className="p-5 border-b border-neutral-800 bg-[#141414] flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-10 h-10 rounded-2xl overflow-hidden p-0.5 bg-gradient-to-br from-[#0F2D59] via-[#08182F] to-black border border-cyan-500/40 shadow-sm flex items-center justify-center shrink-0">
+            <div className="w-10 h-10 rounded-2xl overflow-hidden p-0.5 bg-neutral-950 border border-[#F3B71B]/50 shadow-sm flex items-center justify-center shrink-0">
               <img
-                src="/src/assets/images/studspot_official_icon_1791805148976.jpg"
+                src="/src/assets/images/studspot_gold_icon_1792275165524.jpg"
                 alt="STUDSPOT Official Logo"
                 className="w-full h-full object-cover rounded-xl"
               />

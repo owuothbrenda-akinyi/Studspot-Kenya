@@ -176,9 +176,9 @@ export const MobileHeader: React.FC<MobileHeaderProps> = ({
           className="flex items-center gap-2.5 shrink-0 cursor-pointer group"
           title="About STUDSPOT Campus Marketplace"
         >
-          <div className="w-10 h-10 rounded-2xl overflow-hidden p-0.5 bg-gradient-to-br from-[#0F2D59] via-[#08182F] to-black border border-cyan-500/40 shadow-md shadow-cyan-950/40 group-hover:scale-105 transition-transform flex items-center justify-center shrink-0">
+          <div className="w-10 h-10 rounded-2xl overflow-hidden p-0.5 bg-neutral-950 border border-[#F3B71B]/50 shadow-md shadow-amber-950/30 group-hover:scale-105 transition-transform flex items-center justify-center shrink-0">
             <img
-              src="/src/assets/images/studspot_official_icon_1791805148976.jpg"
+              src="/src/assets/images/studspot_gold_icon_1792275165524.jpg"
               alt="STUDSPOT Official Logo"
               className="w-full h-full object-cover rounded-xl"
             />

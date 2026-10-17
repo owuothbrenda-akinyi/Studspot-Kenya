@@ -134,9 +134,9 @@ export const ShareModal: React.FC<ShareModalProps> = ({ isOpen, onClose, target 
             </div>
           ) : (
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl overflow-hidden bg-black p-0.5 border border-cyan-400/40 shrink-0">
+              <div className="w-12 h-12 rounded-xl overflow-hidden bg-neutral-950 p-0.5 border border-[#F3B71B]/50 shrink-0">
                 <img
-                  src="/src/assets/images/studspot_official_icon_1791805148976.jpg"
+                  src="/src/assets/images/studspot_gold_icon_1792275165524.jpg"
                   alt="STUDSPOT"
                   className="w-full h-full object-cover rounded-lg"
                 />

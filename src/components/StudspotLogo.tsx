@@ -26,12 +26,12 @@ export const StudspotLogo: React.FC<StudspotLogoProps> = ({
 
   const currentSize = sizeMap[size] || sizeMap.md;
 
-  // The official logo image generated directly from the user's uploaded logo specification
-  const logoImgSrc = '/src/assets/images/studspot_official_icon_1791805148976.jpg';
+  // The official gold and dark STUDSPOT logo
+  const logoImgSrc = '/src/assets/images/studspot_gold_icon_1792275165524.jpg';
 
-  // SVG Vector Mark Representation (crisp, scalable vector of the official logo)
+  // Crisp representation of the gold & dark official logo
   const SvgMark = (
-    <div className={`relative ${currentSize.icon} shrink-0 rounded-2xl overflow-hidden shadow-sm bg-gradient-to-br from-[#0F2D59] to-[#08182F] p-0.5 border border-cyan-500/30 flex items-center justify-center`}>
+    <div className={`relative ${currentSize.icon} shrink-0 rounded-2xl overflow-hidden shadow-sm bg-neutral-950 p-0.5 border border-[#F3B71B]/50 flex items-center justify-center`}>
       <img
         src={logoImgSrc}
         alt="STUDSPOT Logo"

@@ -18,7 +18,9 @@ import {
   Download,
   History,
   Clock,
-  X
+  X,
+  Store,
+  GraduationCap
 } from 'lucide-react';
 import { University, User, InstitutionType } from '../types';
 import { UNIVERSITIES } from '../data/seedData';
@@ -43,6 +45,8 @@ interface MobileHeaderProps {
   onOpenShareApp?: () => void;
   onOpenTransactionHistory?: () => void;
   soldCount?: number;
+  onOpenStudentVerify?: () => void;
+  onOpenVendorPortal?: () => void;
 }
 
 export const MobileHeader: React.FC<MobileHeaderProps> = ({
@@ -63,6 +67,8 @@ export const MobileHeader: React.FC<MobileHeaderProps> = ({
   onOpenShareApp,
   onOpenTransactionHistory,
   soldCount,
+  onOpenStudentVerify,
+  onOpenVendorPortal,
 }) => {
   const [showUniDropdown, setShowUniDropdown] = useState(false);
   const [institutionFilter, setInstitutionFilter] = useState<'all' | 'university' | 'kmtc' | 'polytechnic' | 'tvet'>('all');
@@ -182,7 +188,7 @@ export const MobileHeader: React.FC<MobileHeaderProps> = ({
               alt="STUDSPOT Official Logo"
               className="w-full h-full object-cover rounded-xl"
               onError={(e) => {
-                (e.target as HTMLImageElement).src = '/logo.png';
+                (e.target as HTMLImageElement).src = '/studspot-gold-icon.png';
               }}
             />
           </div>
@@ -437,6 +443,45 @@ export const MobileHeader: React.FC<MobileHeaderProps> = ({
             <FileText className="w-3.5 h-3.5 text-neutral-400" />
             <span>Terms</span>
           </button>
+
+          {/* Student ID Verification Trigger */}
+          {onOpenStudentVerify && (
+            <button
+              type="button"
+              onClick={onOpenStudentVerify}
+              className={`min-h-[38px] px-2.5 py-1 text-xs font-bold rounded-xl transition-all flex items-center gap-1.5 ${
+                currentUser?.isVerifiedStudent
+                  ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/25'
+                  : 'bg-neutral-800 text-neutral-300 border border-neutral-700 hover:border-emerald-500/50 hover:text-emerald-300'
+              }`}
+              title={currentUser?.isVerifiedStudent ? 'Comrade Student ID Verified' : 'Verify Student ID for Comrade Trust Badge'}
+            >
+              {currentUser?.isVerifiedStudent ? (
+                <>
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                  <span className="hidden sm:inline">Verified</span>
+                </>
+              ) : (
+                <>
+                  <GraduationCap className="w-3.5 h-3.5 text-emerald-400" />
+                  <span className="hidden sm:inline">Verify ID</span>
+                </>
+              )}
+            </button>
+          )}
+
+          {/* Campus Vendor Portal Trigger */}
+          {onOpenVendorPortal && (
+            <button
+              type="button"
+              onClick={onOpenVendorPortal}
+              className="min-h-[38px] px-2.5 py-1 text-xs font-bold rounded-xl bg-[#242424] text-neutral-300 border border-neutral-700 hover:border-[#F3B71B]/60 hover:text-[#F3B71B] transition-all flex items-center gap-1.5"
+              title="Campus Vendors & Merchant Portal"
+            >
+              <Store className="w-3.5 h-3.5 text-[#F3B71B]" />
+              <span className="hidden md:inline">Vendors</span>
+            </button>
+          )}
 
           {/* User Profile / Registration Trigger */}
           <button

@@ -50,7 +50,7 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({
               alt="STUDSPOT Official Logo"
               className="w-full h-full object-cover rounded-2xl"
               onError={(e) => {
-                (e.target as HTMLImageElement).src = '/logo.png';
+                (e.target as HTMLImageElement).src = '/studspot-gold-icon.png';
               }}
             />
           </div>

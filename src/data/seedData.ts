@@ -120,7 +120,7 @@ export const UNIVERSITIES: University[] = [
     campuses: ['Main Campus (Kisii)', 'Eldoret Campus', 'Kericho Campus', 'Kisumu Campus', 'Nairobi Campus'],
     studentCount: '32,000+',
     institutionType: 'university',
-    categoryLabel: 'University'
+    categoryLabel: 'Public University'
   },
   {
     id: 'maseno',
@@ -130,17 +130,7 @@ export const UNIVERSITIES: University[] = [
     campuses: ['Siriba Main Campus', 'College Campus', 'Kisumu City Campus'],
     studentCount: '24,000+',
     institutionType: 'university',
-    categoryLabel: 'University'
-  },
-  {
-    id: 'kca',
-    name: 'KCA University',
-    shortName: 'KCA Uni',
-    city: 'Nairobi (Ruaraka)',
-    campuses: ['Ruaraka Main Campus', 'Nairobi CBD', 'Western Campus'],
-    studentCount: '20,000+',
-    institutionType: 'university',
-    categoryLabel: 'University'
+    categoryLabel: 'Public University'
   },
   {
     id: 'mmust',
@@ -150,7 +140,7 @@ export const UNIVERSITIES: University[] = [
     campuses: ['Main Campus (Kakamega)', 'Webuye Campus'],
     studentCount: '26,000+',
     institutionType: 'university',
-    categoryLabel: 'University'
+    categoryLabel: 'Public University'
   },
   {
     id: 'chuka',
@@ -160,7 +150,379 @@ export const UNIVERSITIES: University[] = [
     campuses: ['Main Campus', 'Embu Campus', 'Igembe Campus'],
     studentCount: '19,000+',
     institutionType: 'university',
-    categoryLabel: 'University'
+    categoryLabel: 'Public University'
+  },
+  {
+    id: 'must',
+    name: 'Meru University of Science and Technology',
+    shortName: 'MUST Meru',
+    city: 'Meru',
+    campuses: ['Main Campus (Nchiru)', 'Meru Town Campus', 'Marimba Learning Centre'],
+    studentCount: '15,000+',
+    institutionType: 'university',
+    categoryLabel: 'Public University'
+  },
+  {
+    id: 'mmu',
+    name: 'Multimedia University of Kenya',
+    shortName: 'MMU Rongai',
+    city: 'Nairobi (Magadi Rd / Rongai)',
+    campuses: ['Main Campus (Magadi Road)', 'Rongai Gate', 'Nairobi CBD Campus'],
+    studentCount: '11,000+',
+    institutionType: 'university',
+    categoryLabel: 'Public University'
+  },
+  {
+    id: 'pwani',
+    name: 'Pwani University',
+    shortName: 'Pwani Uni',
+    city: 'Kilifi',
+    campuses: ['Main Campus (Kilifi)', 'Town Campus', 'Mombasa Road Gate'],
+    studentCount: '13,000+',
+    institutionType: 'university',
+    categoryLabel: 'Public University'
+  },
+  {
+    id: 'seku',
+    name: 'South Eastern Kenya University',
+    shortName: 'SEKU Kitui',
+    city: 'Kitui',
+    campuses: ['Main Campus (Kwa Vonza)', 'Kitui Town Campus', 'Wote Campus', 'Mtito Andei Campus'],
+    studentCount: '14,000+',
+    institutionType: 'university',
+    categoryLabel: 'Public University'
+  },
+  {
+    id: 'karatina',
+    name: 'Karatina University',
+    shortName: 'KSU Karatina',
+    city: 'Karatina, Nyeri',
+    campuses: ['Main Campus (Kagochi)', 'School of Business (Karatina Town)', 'Ishiara Campus'],
+    studentCount: '12,000+',
+    institutionType: 'university',
+    categoryLabel: 'Public University'
+  },
+  {
+    id: 'kibabii',
+    name: 'Kibabii University',
+    shortName: 'KIBU Bungoma',
+    city: 'Bungoma',
+    campuses: ['Main Campus (Bungoma)', 'Town Study Centre'],
+    studentCount: '13,500+',
+    institutionType: 'university',
+    categoryLabel: 'Public University'
+  },
+  {
+    id: 'kirinyaga',
+    name: 'Kirinyaga University',
+    shortName: 'KyU Kirinyaga',
+    city: 'Kerugoya, Kirinyaga',
+    campuses: ['Main Campus (Kutus)', 'Kerugoya Town Centre'],
+    studentCount: '10,500+',
+    institutionType: 'university',
+    categoryLabel: 'Public University'
+  },
+  {
+    id: 'kafu',
+    name: 'Kaimosi Friends University',
+    shortName: 'KAFU Kaimosi',
+    city: 'Kaimosi, Vihiga',
+    campuses: ['Main Campus (Kaimosi)', 'Chavakali Learning Centre'],
+    studentCount: '8,000+',
+    institutionType: 'university',
+    categoryLabel: 'Public University'
+  },
+  {
+    id: 'laikipia',
+    name: 'Laikipia University',
+    shortName: 'Laikipia Uni',
+    city: 'Nyahururu, Laikipia',
+    campuses: ['Main Campus (Nyahururu)', 'Maralal Campus'],
+    studentCount: '11,000+',
+    institutionType: 'university',
+    categoryLabel: 'Public University'
+  },
+  {
+    id: 'maasaimara',
+    name: 'Maasai Mara University',
+    shortName: 'MMU Narok',
+    city: 'Narok',
+    campuses: ['Main Campus (Narok)', 'Kilgoris Campus'],
+    studentCount: '12,500+',
+    institutionType: 'university',
+    categoryLabel: 'Public University'
+  },
+  {
+    id: 'machakos_uni',
+    name: 'Machakos University',
+    shortName: 'Machakos Uni',
+    city: 'Machakos',
+    campuses: ['Main Campus (Machakos)', 'Wote Campus'],
+    studentCount: '14,000+',
+    institutionType: 'university',
+    categoryLabel: 'Public University'
+  },
+  {
+    id: 'mut',
+    name: "Murang'a University of Technology",
+    shortName: "MUT Murang'a",
+    city: "Murang'a",
+    campuses: ['Main Campus (Murang’a Town)', 'Technology Complex Gate'],
+    studentCount: '12,000+',
+    institutionType: 'university',
+    categoryLabel: 'Public University'
+  },
+  {
+    id: 'rongo',
+    name: 'Rongo University',
+    shortName: 'Rongo Uni',
+    city: 'Rongo, Migori',
+    campuses: ['Kitere Main Campus', 'Rongo Town Campus'],
+    studentCount: '9,500+',
+    institutionType: 'university',
+    categoryLabel: 'Public University'
+  },
+  {
+    id: 'ttu',
+    name: 'Taita Taveta University',
+    shortName: 'TTU Voi',
+    city: 'Voi, Taita Taveta',
+    campuses: ['Main Campus (Voi)', 'Mining & Mineral Complex'],
+    studentCount: '7,500+',
+    institutionType: 'university',
+    categoryLabel: 'Public University'
+  },
+  {
+    id: 'tharaka',
+    name: 'Tharaka University',
+    shortName: 'Tharaka Uni',
+    city: 'Marimanti, Tharaka Nithi',
+    campuses: ['Main Campus (Marimanti)', 'Kathwana Campus'],
+    studentCount: '6,500+',
+    institutionType: 'university',
+    categoryLabel: 'Public University'
+  },
+  {
+    id: 'tmu',
+    name: 'Tom Mboya University',
+    shortName: 'TMU Homa Bay',
+    city: 'Homa Bay',
+    campuses: ['Main Campus (Homa Bay Town)', 'Lake Basin Campus'],
+    studentCount: '8,000+',
+    institutionType: 'university',
+    categoryLabel: 'Public University'
+  },
+  {
+    id: 'turkana_uni',
+    name: 'Turkana University College',
+    shortName: 'TUC Lodwar',
+    city: 'Lodwar, Turkana',
+    campuses: ['Main Campus (Lodwar)', 'Cradle Gate'],
+    studentCount: '4,500+',
+    institutionType: 'university',
+    categoryLabel: 'Public University'
+  },
+
+  // EXPANDED PRIVATE UNIVERSITIES (CHARTERED & INTERIMS)
+  {
+    id: 'ueab',
+    name: 'University of Eastern Africa, Baraton',
+    shortName: 'UEAB Baraton',
+    city: 'Kapsabet / Eldoret',
+    campuses: ['Main Campus (Baraton)', 'Eldoret Extension', 'Nairobi Extension'],
+    studentCount: '6,000+',
+    institutionType: 'university',
+    categoryLabel: 'Private University'
+  },
+  {
+    id: 'stpauls',
+    name: "St. Paul's University",
+    shortName: "St. Paul's SPU",
+    city: 'Limuru / Nairobi',
+    campuses: ['Limuru Main Campus', 'Nairobi Campus (Church House)', 'Nakuru Campus'],
+    studentCount: '9,000+',
+    institutionType: 'university',
+    categoryLabel: 'Private University'
+  },
+  {
+    id: 'scott',
+    name: 'Scott Christian University',
+    shortName: 'Scott Christian',
+    city: 'Machakos',
+    campuses: ['Main Campus (Machakos)', 'Nairobi Study Centre'],
+    studentCount: '4,000+',
+    institutionType: 'university',
+    categoryLabel: 'Private University'
+  },
+  {
+    id: 'kca',
+    name: 'KCA University',
+    shortName: 'KCA Uni',
+    city: 'Nairobi (Ruaraka)',
+    campuses: ['Ruaraka Main Campus', 'Nairobi CBD', 'Western Campus (Kisumu)'],
+    studentCount: '20,000+',
+    institutionType: 'university',
+    categoryLabel: 'Private University'
+  },
+  {
+    id: 'kemu',
+    name: 'Kenya Methodist University',
+    shortName: 'KeMU',
+    city: 'Meru / Nairobi',
+    campuses: ['Meru Main Campus', 'Nairobi Hub (Koinange St)', 'Mombasa Campus'],
+    studentCount: '11,000+',
+    institutionType: 'university',
+    categoryLabel: 'Private University'
+  },
+  {
+    id: 'pac',
+    name: 'Pan Africa Christian University',
+    shortName: 'PAC University',
+    city: 'Nairobi (Roysambu)',
+    campuses: ['Roysambu Main Campus (Thika Road)'],
+    studentCount: '5,000+',
+    institutionType: 'university',
+    categoryLabel: 'Private University'
+  },
+  {
+    id: 'aiu',
+    name: 'Africa International University',
+    shortName: 'AIU Karen',
+    city: 'Nairobi (Karen)',
+    campuses: ['Karen Main Campus'],
+    studentCount: '4,500+',
+    institutionType: 'university',
+    categoryLabel: 'Private University'
+  },
+  {
+    id: 'highlands',
+    name: 'Kenya Highlands Evangelical University',
+    shortName: 'KHEU Kericho',
+    city: 'Kericho',
+    campuses: ['Main Campus (Kericho)', 'Town Campus'],
+    studentCount: '5,500+',
+    institutionType: 'university',
+    categoryLabel: 'Private University'
+  },
+  {
+    id: 'gluk',
+    name: 'Great Lakes University of Kisumu',
+    shortName: 'GLUK Kisumu',
+    city: 'Kisumu',
+    campuses: ['Kibos Main Campus', 'Milimani Kisumu'],
+    studentCount: '6,500+',
+    institutionType: 'university',
+    categoryLabel: 'Private University'
+  },
+  {
+    id: 'aua',
+    name: 'Adventist University of Africa',
+    shortName: 'AUA Rongai',
+    city: 'Nairobi (Ongata Rongai)',
+    campuses: ['Advent Hill Main Campus'],
+    studentCount: '3,000+',
+    institutionType: 'university',
+    categoryLabel: 'Private University'
+  },
+  {
+    id: 'gretsa',
+    name: 'Gretsa University',
+    shortName: 'Gretsa Thika',
+    city: 'Thika',
+    campuses: ['Main Campus (Garissa Road, Thika)'],
+    studentCount: '6,000+',
+    institutionType: 'university',
+    categoryLabel: 'Private University'
+  },
+  {
+    id: 'mua',
+    name: 'Management University of Africa',
+    shortName: 'MUA South C',
+    city: 'Nairobi (South C / Kisaju)',
+    campuses: ['South C Main Campus', 'Kisaju Learning Center'],
+    studentCount: '5,500+',
+    institutionType: 'university',
+    categoryLabel: 'Private University'
+  },
+  {
+    id: 'amiu',
+    name: 'Amref International University',
+    shortName: 'AMIU Langata',
+    city: "Nairobi (Lang'ata)",
+    campuses: ["Lang'ata Main Campus (Wilson Airport Road)"],
+    studentCount: '4,000+',
+    institutionType: 'university',
+    categoryLabel: 'Private University'
+  },
+  {
+    id: 'piu',
+    name: 'Pioneer International University',
+    shortName: 'PIU Ngara',
+    city: "Nairobi (Murang'a Road)",
+    campuses: ["Murang'a Road Main Campus (Ngara)"],
+    studentCount: '4,500+',
+    institutionType: 'university',
+    categoryLabel: 'Private University'
+  },
+  {
+    id: 'tangaza',
+    name: 'Tangaza University',
+    shortName: 'Tangaza Karen',
+    city: 'Nairobi (Karen)',
+    campuses: ['Karen Main Campus (Langata South Rd)'],
+    studentCount: '5,000+',
+    institutionType: 'university',
+    categoryLabel: 'Private University'
+  },
+  {
+    id: 'riara',
+    name: 'Riara University',
+    shortName: 'Riara Mbagathi',
+    city: 'Nairobi (Mbagathi Way)',
+    campuses: ['Mbagathi Way Main Campus'],
+    studentCount: '6,000+',
+    institutionType: 'university',
+    categoryLabel: 'Private University'
+  },
+  {
+    id: 'umma',
+    name: 'Umma University',
+    shortName: 'Umma Kajiado',
+    city: 'Kajiado / Thika',
+    campuses: ['Kajiado Main Campus', 'Thika Town Campus'],
+    studentCount: '5,000+',
+    institutionType: 'university',
+    categoryLabel: 'Private University'
+  },
+  {
+    id: 'iuk',
+    name: 'Islamic University of Kenya',
+    shortName: 'IUK Kisaju',
+    city: 'Kisaju, Kajiado',
+    campuses: ['Kisaju Main Campus'],
+    studentCount: '3,500+',
+    institutionType: 'university',
+    categoryLabel: 'Private University'
+  },
+  {
+    id: 'lukenya',
+    name: 'Lukenya University',
+    shortName: 'Lukenya Uni',
+    city: 'Kibwezi / Mtito Andei',
+    campuses: ['Main Campus (Kambu, Kibwezi)', 'Athi River Learning Centre'],
+    studentCount: '5,000+',
+    institutionType: 'university',
+    categoryLabel: 'Private University'
+  },
+  {
+    id: 'ilu',
+    name: 'International Leadership University',
+    shortName: 'ILU Kilimani',
+    city: 'Nairobi (Kilimani)',
+    campuses: ['Kilimani Main Campus', 'Kitengela Campus'],
+    studentCount: '3,000+',
+    institutionType: 'university',
+    categoryLabel: 'Private University'
   },
   {
     id: 'other_custom',
@@ -176,7 +538,7 @@ export const UNIVERSITIES: University[] = [
   // KMTC (KENYA MEDICAL TRAINING COLLEGE) CAMPUSES
   {
     id: 'kmtc_nairobi',
-    name: 'KMTC Nairobi Campus (Mbagathi / KNH)',
+    name: 'KMTC Nairobi (Main Campus)',
     shortName: 'KMTC Nairobi',
     city: 'Nairobi',
     campuses: ['Mbagathi Way Main Gate', 'KNH Complex Gate', 'Karen Faculty'],
@@ -196,7 +558,7 @@ export const UNIVERSITIES: University[] = [
   },
   {
     id: 'kmtc_kisumu',
-    name: 'KMTC Kisumu Campus (JOOTRH)',
+    name: 'KMTC Kisumu Campus',
     shortName: 'KMTC Kisumu',
     city: 'Kisumu',
     campuses: ['JOOTRH Teaching Gate', 'Kondele Road Main Gate'],
@@ -206,7 +568,7 @@ export const UNIVERSITIES: University[] = [
   },
   {
     id: 'kmtc_nakuru',
-    name: 'KMTC Nakuru Campus (PGH)',
+    name: 'KMTC Nakuru Campus',
     shortName: 'KMTC Nakuru',
     city: 'Nakuru',
     campuses: ['Provincial General Hospital (PGH)', 'Milimani Faculty'],
@@ -216,7 +578,7 @@ export const UNIVERSITIES: University[] = [
   },
   {
     id: 'kmtc_eldoret',
-    name: 'KMTC Eldoret Campus (MTRH)',
+    name: 'KMTC Eldoret Campus',
     shortName: 'KMTC Eldoret',
     city: 'Eldoret',
     campuses: ['Moi Teaching & Referral (MTRH)', 'Nandi Road Gate'],
@@ -235,12 +597,32 @@ export const UNIVERSITIES: University[] = [
     categoryLabel: 'KMTC Campus'
   },
   {
-    id: 'kmtc_thika',
-    name: 'KMTC Thika Campus',
-    shortName: 'KMTC Thika',
-    city: 'Thika',
-    campuses: ['Thika Level 5 Gate', 'General Kago Road'],
-    studentCount: '2,400+',
+    id: 'kmtc_kakamega',
+    name: 'KMTC Kakamega Campus',
+    shortName: 'KMTC Kakamega',
+    city: 'Kakamega',
+    campuses: ['Kakamega General Hospital Gate'],
+    studentCount: '2,200+',
+    institutionType: 'kmtc',
+    categoryLabel: 'KMTC Campus'
+  },
+  {
+    id: 'kmtc_embu',
+    name: 'KMTC Embu Campus',
+    shortName: 'KMTC Embu',
+    city: 'Embu',
+    campuses: ['Embu Level 5 Hospital Gate'],
+    studentCount: '2,100+',
+    institutionType: 'kmtc',
+    categoryLabel: 'KMTC Campus'
+  },
+  {
+    id: 'kmtc_garissa',
+    name: 'KMTC Garissa Campus',
+    shortName: 'KMTC Garissa',
+    city: 'Garissa',
+    campuses: ['Garissa Referral Hospital Gate'],
+    studentCount: '1,800+',
     institutionType: 'kmtc',
     categoryLabel: 'KMTC Campus'
   },
@@ -255,12 +637,32 @@ export const UNIVERSITIES: University[] = [
     categoryLabel: 'KMTC Campus'
   },
   {
-    id: 'kmtc_kakamega',
-    name: 'KMTC Kakamega Campus',
-    shortName: 'KMTC Kakamega',
-    city: 'Kakamega',
-    campuses: ['Kakamega General Hospital Gate'],
-    studentCount: '2,200+',
+    id: 'kmtc_lodwar',
+    name: 'KMTC Lodwar Campus',
+    shortName: 'KMTC Lodwar',
+    city: 'Lodwar, Turkana',
+    campuses: ['Lodwar District Hospital Gate'],
+    studentCount: '1,500+',
+    institutionType: 'kmtc',
+    categoryLabel: 'KMTC Campus'
+  },
+  {
+    id: 'kmtc_bomet',
+    name: 'KMTC Bomet Campus',
+    shortName: 'KMTC Bomet',
+    city: 'Bomet',
+    campuses: ['Longisa County Referral Hospital Gate'],
+    studentCount: '1,600+',
+    institutionType: 'kmtc',
+    categoryLabel: 'KMTC Campus'
+  },
+  {
+    id: 'kmtc_thika',
+    name: 'KMTC Thika Campus',
+    shortName: 'KMTC Thika',
+    city: 'Thika',
+    campuses: ['Thika Level 5 Gate', 'General Kago Road'],
+    studentCount: '2,400+',
     institutionType: 'kmtc',
     categoryLabel: 'KMTC Campus'
   },
@@ -275,20 +677,10 @@ export const UNIVERSITIES: University[] = [
     categoryLabel: 'KMTC Campus'
   },
 
-  // NATIONAL POLYTECHNICS
-  {
-    id: 'kabete_poly',
-    name: 'The Kabete National Polytechnic',
-    shortName: 'Kabete Poly',
-    city: 'Nairobi (Waiyaki Way)',
-    campuses: ['Waiyaki Way Main Gate', 'Uthiru Lower Gate', 'Administration Block'],
-    studentCount: '18,000+',
-    institutionType: 'polytechnic',
-    categoryLabel: 'National Polytechnic'
-  },
+  // NATIONAL POLYTECHNICS (TOP TIER TECHNICALS)
   {
     id: 'kcnp',
-    name: 'Kenya Coast National Polytechnic',
+    name: 'The Kenya Coast National Polytechnic',
     shortName: 'Coast Poly (KCNP)',
     city: 'Mombasa',
     campuses: ['Kisauni Main Gate', 'Mvita Center'],
@@ -317,22 +709,22 @@ export const UNIVERSITIES: University[] = [
     categoryLabel: 'National Polytechnic'
   },
   {
+    id: 'kabete_poly',
+    name: 'The Kabete National Polytechnic',
+    shortName: 'Kabete Poly',
+    city: 'Nairobi (Waiyaki Way)',
+    campuses: ['Waiyaki Way Main Gate', 'Uthiru Lower Gate', 'Administration Block'],
+    studentCount: '18,000+',
+    institutionType: 'polytechnic',
+    categoryLabel: 'National Polytechnic'
+  },
+  {
     id: 'nyeri_poly',
     name: 'The Nyeri National Polytechnic',
     shortName: 'Nyeri Poly',
     city: 'Nyeri',
     campuses: ['Outspan Road Main Gate'],
     studentCount: '12,000+',
-    institutionType: 'polytechnic',
-    categoryLabel: 'National Polytechnic'
-  },
-  {
-    id: 'sigalagala_poly',
-    name: 'The Sigalagala National Polytechnic',
-    shortName: 'Sigalagala Poly',
-    city: 'Kakamega',
-    campuses: ['Sigalagala Main Gate', 'Town Wing'],
-    studentCount: '14,000+',
     institutionType: 'polytechnic',
     categoryLabel: 'National Polytechnic'
   },
@@ -347,6 +739,16 @@ export const UNIVERSITIES: University[] = [
     categoryLabel: 'National Polytechnic'
   },
   {
+    id: 'sigalagala_poly',
+    name: 'The Sigalagala National Polytechnic',
+    shortName: 'Sigalagala Poly',
+    city: 'Kakamega',
+    campuses: ['Sigalagala Main Gate', 'Town Wing'],
+    studentCount: '14,000+',
+    institutionType: 'polytechnic',
+    categoryLabel: 'National Polytechnic'
+  },
+  {
     id: 'kitale_poly',
     name: 'The Kitale National Polytechnic',
     shortName: 'Kitale Poly',
@@ -356,8 +758,18 @@ export const UNIVERSITIES: University[] = [
     institutionType: 'polytechnic',
     categoryLabel: 'National Polytechnic'
   },
+  {
+    id: 'kiambu_poly',
+    name: 'Kiambu National Polytechnic',
+    shortName: 'Kiambu Poly',
+    city: 'Kiambu',
+    campuses: ['Kiambu Road Main Gate', 'Engineering Quad'],
+    studentCount: '10,000+',
+    institutionType: 'polytechnic',
+    categoryLabel: 'National Polytechnic'
+  },
 
-  // TVET COLLEGES & INSTITUTES
+  // TECHNICAL TRAINING INSTITUTES (TTIs) & TECHNICAL COLLEGES
   {
     id: 'ntti',
     name: 'Nairobi Technical Training Institute',
@@ -366,37 +778,17 @@ export const UNIVERSITIES: University[] = [
     campuses: ['Ngara Ring Road Main Gate', 'Park Road Wing'],
     studentCount: '14,000+',
     institutionType: 'tvet',
-    categoryLabel: 'TVET Institute'
+    categoryLabel: 'Technical Training Institute'
   },
   {
-    id: 'kinyanjui_tech',
-    name: 'PC Kinyanjui Technical Training Institute',
-    shortName: 'PC Kinyanjui TTI',
-    city: 'Nairobi (Riruta)',
-    campuses: ['Riruta Main Gate', 'Kabiria Wing'],
-    studentCount: '10,000+',
+    id: 'machakos_blind_tti',
+    name: 'Machakos Technical Training Institute for the Blind',
+    shortName: 'Machakos TTI Blind',
+    city: 'Machakos',
+    campuses: ['Machakos Town Campus'],
+    studentCount: '3,000+',
     institutionType: 'tvet',
-    categoryLabel: 'TVET Institute'
-  },
-  {
-    id: 'rvtti',
-    name: 'Rift Valley Technical Training Institute',
-    shortName: 'RVTTI Eldoret',
-    city: 'Eldoret',
-    campuses: ['Kapsabet Road Main Gate', 'Town Center'],
-    studentCount: '16,000+',
-    institutionType: 'tvet',
-    categoryLabel: 'TVET Institute'
-  },
-  {
-    id: 'kist',
-    name: 'Kiambu Institute of Science and Technology',
-    shortName: 'KIST Kiambu',
-    city: 'Kiambu',
-    campuses: ['Kiambu Road Main Gate', 'Engineering Quad'],
-    studentCount: '9,000+',
-    institutionType: 'tvet',
-    categoryLabel: 'TVET Institute'
+    categoryLabel: 'Technical Training Institute'
   },
   {
     id: 'thika_tvet',
@@ -406,7 +798,57 @@ export const UNIVERSITIES: University[] = [
     campuses: ['Hospital Road Main Gate'],
     studentCount: '8,500+',
     institutionType: 'tvet',
-    categoryLabel: 'TVET Institute'
+    categoryLabel: 'Technical Training Institute'
+  },
+  {
+    id: 'rvtti',
+    name: 'Rift Valley Technical Training Institute',
+    shortName: 'RVTTI Eldoret',
+    city: 'Eldoret',
+    campuses: ['Kapsabet Road Main Gate', 'Town Center'],
+    studentCount: '16,000+',
+    institutionType: 'tvet',
+    categoryLabel: 'Technical Training Institute'
+  },
+  {
+    id: 'mandera_tti',
+    name: 'Mandera Technical Training Institute',
+    shortName: 'Mandera TTI',
+    city: 'Mandera',
+    campuses: ['Mandera Town Main Gate'],
+    studentCount: '3,500+',
+    institutionType: 'tvet',
+    categoryLabel: 'Technical Training Institute'
+  },
+  {
+    id: 'matili_tti',
+    name: 'Matili Technical Training Institute',
+    shortName: 'Matili TTI',
+    city: 'Kimilili / Bungoma',
+    campuses: ['Matili Main Gate'],
+    studentCount: '6,000+',
+    institutionType: 'tvet',
+    categoryLabel: 'Technical Training Institute'
+  },
+  {
+    id: 'eldoret_tti',
+    name: 'Eldoret Technical Training Institute',
+    shortName: 'Eldoret TTI',
+    city: 'Eldoret',
+    campuses: ['Eldoret Town Campus'],
+    studentCount: '5,500+',
+    institutionType: 'tvet',
+    categoryLabel: 'Technical Training Institute'
+  },
+  {
+    id: 'kinyanjui_tech',
+    name: 'PC Kinyanjui Technical Training Institute',
+    shortName: 'PC Kinyanjui TTI',
+    city: 'Nairobi (Riruta)',
+    campuses: ['Riruta Main Gate', 'Kabiria Wing'],
+    studentCount: '10,000+',
+    institutionType: 'tvet',
+    categoryLabel: 'Technical Training Institute'
   },
   {
     id: 'riat',
@@ -416,7 +858,7 @@ export const UNIVERSITIES: University[] = [
     campuses: ['Riat Hills Main Gate'],
     studentCount: '9,500+',
     institutionType: 'tvet',
-    categoryLabel: 'TVET Institute'
+    categoryLabel: 'Technical Training Institute'
   },
   {
     id: 'kaiboi_tvet',
@@ -426,7 +868,49 @@ export const UNIVERSITIES: University[] = [
     campuses: ['Kaiboi Main Gate'],
     studentCount: '7,500+',
     institutionType: 'tvet',
-    categoryLabel: 'TVET Institute'
+    categoryLabel: 'Technical Training Institute'
+  },
+
+  // SCIENCE, AGRICULTURE & SPECIALIZED COLLEGES
+  {
+    id: 'bukura',
+    name: 'Bukura Agricultural College',
+    shortName: 'Bukura Agri',
+    city: 'Kakamega',
+    campuses: ['Bukura Main Campus'],
+    studentCount: '4,500+',
+    institutionType: 'tvet',
+    categoryLabel: 'Science & Agriculture College'
+  },
+  {
+    id: 'kenya_forestry',
+    name: 'Kenya Forestry College',
+    shortName: 'Forestry College',
+    city: 'Londiani, Kericho',
+    campuses: ['Londiani Main Campus'],
+    studentCount: '3,000+',
+    institutionType: 'tvet',
+    categoryLabel: 'Science & Agriculture College'
+  },
+  {
+    id: 'kewi',
+    name: 'Kenya Water Institute',
+    shortName: 'KEWI Nairobi',
+    city: 'Nairobi (South C)',
+    campuses: ['South C Main Campus', 'Kitui Campus', 'Kisumu Campus', 'Chiakariga Campus'],
+    studentCount: '5,000+',
+    institutionType: 'tvet',
+    categoryLabel: 'Science & Water College'
+  },
+  {
+    id: 'utalii',
+    name: 'Kenya Utalii College',
+    shortName: 'Utalii College',
+    city: 'Nairobi (Thika Road)',
+    campuses: ['Thika Road Main Campus', 'Kisumu Campus', 'Mombasa Campus'],
+    studentCount: '6,500+',
+    institutionType: 'tvet',
+    categoryLabel: 'Hospitality & Tourism College'
   }
 ];
 

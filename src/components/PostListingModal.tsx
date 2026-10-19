@@ -416,22 +416,22 @@ export const PostListingModal: React.FC<PostListingModalProps> = ({
                     <optgroup label="✨ Not in list?">
                       <option value="other_custom">✍️ Type Custom Campus Name (e.g. KSII uni...)</option>
                     </optgroup>
-                    <optgroup label="Universities">
+                    <optgroup label="🎓 Public & Private Universities">
                       {allAvailableCampuses.filter(u => u.institutionType === 'university').map((uni) => (
-                        <option key={uni.id} value={uni.id}>{uni.name}</option>
+                        <option key={uni.id} value={uni.id}>{uni.name} ({uni.shortName})</option>
                       ))}
                     </optgroup>
-                    <optgroup label="KMTC (Kenya Medical Training College)">
+                    <optgroup label="🩺 KMTC (Kenya Medical Training College)">
                       {allAvailableCampuses.filter(u => u.institutionType === 'kmtc').map((uni) => (
                         <option key={uni.id} value={uni.id}>{uni.name}</option>
                       ))}
                     </optgroup>
-                    <optgroup label="National Polytechnics">
+                    <optgroup label="⚙️ National Polytechnics (Top Tier Technicals)">
                       {allAvailableCampuses.filter(u => u.institutionType === 'polytechnic').map((uni) => (
                         <option key={uni.id} value={uni.id}>{uni.name}</option>
                       ))}
                     </optgroup>
-                    <optgroup label="TVET Colleges & Institutes">
+                    <optgroup label="🔧 TVETs, TTIs & Specialized Colleges">
                       {allAvailableCampuses.filter(u => u.institutionType === 'tvet').map((uni) => (
                         <option key={uni.id} value={uni.id}>{uni.name}</option>
                       ))}

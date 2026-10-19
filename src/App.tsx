@@ -48,6 +48,11 @@ import { ShareModal, ShareTarget } from './components/ShareModal';
 import { TransactionHistoryModal } from './components/TransactionHistoryModal';
 import { PWAInstallButton } from './components/PWAInstallButton';
 import { OfflineIndicator } from './components/OfflineIndicator';
+import { StudentVerifyModal } from './components/StudentVerifyModal';
+import { VendorSignUpModal } from './components/VendorSignUpModal';
+import { VendorDashboardModal } from './components/VendorDashboardModal';
+import { Vendor } from './types';
+import { getVendors } from './utils/verificationStore';
 
 export default function App() {
   // 1. Database Collections State (Adalo Data Architecture)
@@ -119,6 +124,51 @@ export default function App() {
   const [shareTarget, setShareTarget] = useState<ShareTarget | null>(null);
   const [isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false);
   const [isTransactionHistoryOpen, setIsTransactionHistoryOpen] = useState<boolean>(false);
+
+  // Student & Vendor Verification Modals & State
+  const [isStudentVerifyOpen, setIsStudentVerifyOpen] = useState<boolean>(false);
+  const [isVendorSignUpOpen, setIsVendorSignUpOpen] = useState<boolean>(false);
+  const [isVendorDashboardOpen, setIsVendorDashboardOpen] = useState<boolean>(false);
+  const [vendors, setVendors] = useState<Vendor[]>(() => getVendors());
+  const [currentVendor, setCurrentVendor] = useState<Vendor | null>(() => {
+    const list = getVendors();
+    return list.length > 0 ? list[0] : null;
+  });
+
+  // Real-time synchronization for vendors and verified users
+  useEffect(() => {
+    const handleVendorsUpdated = () => {
+      const vList = getVendors();
+      setVendors(vList);
+      if (currentVendor) {
+        const matching = vList.find(v => v.id === currentVendor.id);
+        if (matching) setCurrentVendor(matching);
+      }
+    };
+
+    const handleUserUpdated = () => {
+      try {
+        const stored = localStorage.getItem('studspot_users');
+        if (stored) {
+          const uList: User[] = JSON.parse(stored);
+          setUsers(uList);
+          if (currentUser) {
+            const found = uList.find(u => u.id === currentUser.id);
+            if (found) setCurrentUser(found);
+          }
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    window.addEventListener('studspot_vendors_updated', handleVendorsUpdated);
+    window.addEventListener('studspot_user_updated', handleUserUpdated);
+    return () => {
+      window.removeEventListener('studspot_vendors_updated', handleVendorsUpdated);
+      window.removeEventListener('studspot_user_updated', handleUserUpdated);
+    };
+  }, [currentUser, currentVendor]);
 
   const handleToggleSold = (listingId: string) => {
     const nowFormatted = new Date().toLocaleDateString('en-KE', { month: 'short', day: 'numeric', year: 'numeric' });
@@ -447,6 +497,14 @@ export default function App() {
         onOpenShareApp={handleOpenShareApp}
         onOpenTransactionHistory={() => setIsTransactionHistoryOpen(true)}
         soldCount={listings.filter(l => l.isSold).length}
+        onOpenStudentVerify={() => setIsStudentVerifyOpen(true)}
+        onOpenVendorPortal={() => {
+          if (currentVendor) {
+            setIsVendorDashboardOpen(true);
+          } else {
+            setIsVendorSignUpOpen(true);
+          }
+        }}
       />
 
       <main className="max-w-7xl mx-auto px-4 w-full flex-1 pt-3 space-y-4">
@@ -495,20 +553,51 @@ export default function App() {
                 </div>
                 <div className="flex items-center gap-1.5 text-neutral-400">
                   <MapPin className="w-3.5 h-3.5 text-[#F3B71B]" />
-                  <span>35+ Campuses, KMTCs, Polys & TVETs</span>
+                  <span>75+ Campuses, KMTCs, Polys & TVETs</span>
                 </div>
               </div>
 
-              {/* Install PWA and Share Actions */}
+              {/* Actions: Install PWA, Student Verification, Vendor Portal & Share */}
               <div className="pt-2 flex flex-wrap items-center gap-2.5">
                 <PWAInstallButton />
+                
+                <button
+                  type="button"
+                  onClick={() => setIsStudentVerifyOpen(true)}
+                  className={`px-3.5 py-1.5 rounded-xl border text-xs font-bold transition flex items-center gap-1.5 ${
+                    currentUser?.isVerifiedStudent
+                      ? 'bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border-emerald-500/40'
+                      : 'bg-[#242424] hover:bg-[#2e2e2e] text-neutral-200 border-neutral-700 hover:border-emerald-500/50'
+                  }`}
+                  title="Verify Student ID for Comrade Trust Badge"
+                >
+                  <ShieldCheck className={`w-3.5 h-3.5 ${currentUser?.isVerifiedStudent ? 'text-emerald-400' : 'text-neutral-400'}`} />
+                  <span>{currentUser?.isVerifiedStudent ? 'Comrade Verified' : 'Verify Student ID'}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (currentVendor) {
+                      setIsVendorDashboardOpen(true);
+                    } else {
+                      setIsVendorSignUpOpen(true);
+                    }
+                  }}
+                  className="px-3.5 py-1.5 rounded-xl bg-[#242424] hover:bg-[#2e2e2e] text-neutral-200 border border-neutral-700 hover:border-[#F3B71B]/60 text-xs font-bold transition flex items-center gap-1.5"
+                  title="Campus Vendor Registration & Dashboard"
+                >
+                  <Store className="w-3.5 h-3.5 text-[#F3B71B]" />
+                  <span>{currentVendor ? 'Vendor Portal' : 'Register Vendor'}</span>
+                </button>
+
                 <button
                   type="button"
                   onClick={handleOpenShareApp}
                   className="px-3.5 py-1.5 rounded-xl bg-[#242424] hover:bg-[#2e2e2e] text-neutral-200 border border-neutral-700 text-xs font-bold transition flex items-center gap-1.5"
                 >
                   <Share2 className="w-3.5 h-3.5 text-[#F3B71B]" />
-                  <span>Share with Comrades</span>
+                  <span>Share</span>
                 </button>
               </div>
             </div>
@@ -868,6 +957,54 @@ export default function App() {
         onClose={() => setIsShareModalOpen(false)}
         target={shareTarget}
       />
+
+      {/* Student ID Verification Modal with OCR Simulation */}
+      <StudentVerifyModal
+        isOpen={isStudentVerifyOpen}
+        onClose={() => setIsStudentVerifyOpen(false)}
+        currentUser={currentUser}
+        onVerifySuccess={(updatedUser) => {
+          if (updatedUser && currentUser) {
+            const merged = { ...currentUser, ...updatedUser };
+            setCurrentUser(merged);
+            setUsers(prev => prev.map(u => u.id === merged.id ? merged : u));
+          }
+        }}
+      />
+
+      {/* Campus Vendor Sign-Up Modal with National ID & Kenyan Phone Validation */}
+      <VendorSignUpModal
+        isOpen={isVendorSignUpOpen}
+        onClose={() => setIsVendorSignUpOpen(false)}
+        onVendorRegistered={(newVendor) => {
+          setCurrentVendor(newVendor);
+          setIsVendorSignUpOpen(false);
+          setIsVendorDashboardOpen(true);
+        }}
+      />
+
+      {/* Campus Vendor Dashboard Modal with Upload Gating until verified */}
+      {currentVendor && (
+        <VendorDashboardModal
+          isOpen={isVendorDashboardOpen}
+          onClose={() => setIsVendorDashboardOpen(false)}
+          vendor={currentVendor}
+          vendorListings={listings.filter(
+            l => (currentVendor && l.seller.name.toLowerCase().includes(currentVendor.legalBusinessName.toLowerCase())) || l.type === 'business'
+          )}
+          onOpenUploadProduct={() => {
+            setIsVendorDashboardOpen(false);
+            setIsPostModalOpen(true);
+          }}
+          onUpdateVendor={(updated) => {
+            setCurrentVendor(updated);
+          }}
+          onOpenRegisterNewVendor={() => {
+            setIsVendorDashboardOpen(false);
+            setIsVendorSignUpOpen(true);
+          }}
+        />
+      )}
 
       {/* PWA Offline Mode Indicator */}
       <OfflineIndicator />

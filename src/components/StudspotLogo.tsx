@@ -52,7 +52,7 @@ export const StudspotLogo: React.FC<StudspotLogoProps> = ({
   if (variant === 'app-icon') {
     return (
       <div className={`inline-flex flex-col items-center gap-1.5 ${className}`}>
-        <div className="relative rounded-2xl overflow-hidden shadow-2xl p-1 bg-gradient-to-b from-[#1E293B] to-[#0F172A] border border-neutral-700/80 hover:border-cyan-400/50 transition-all group">
+        <div className="relative rounded-2xl overflow-hidden shadow-2xl p-1 bg-gradient-to-b from-[#242424] to-[#121212] border border-neutral-700/80 hover:border-[#F3B71B]/50 transition-all group">
           <img
             src={logoImgSrc}
             alt="STUDSPOT App Icon"

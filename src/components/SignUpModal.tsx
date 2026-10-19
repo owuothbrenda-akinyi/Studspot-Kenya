@@ -299,24 +299,24 @@ export const SignUpModal: React.FC<SignUpModalProps> = ({
                         <optgroup label="✨ Not in list?">
                           <option value="other_custom">✍️ Type Custom Campus...</option>
                         </optgroup>
-                        <optgroup label="Universities">
+                        <optgroup label="🎓 Public & Private Universities">
                           {allAvailableCampuses.filter(u => u.institutionType === 'university').map((uni) => (
-                            <option key={uni.id} value={uni.id}>{uni.shortName}</option>
+                            <option key={uni.id} value={uni.id}>{uni.name} ({uni.shortName})</option>
                           ))}
                         </optgroup>
-                        <optgroup label="KMTC Campuses">
+                        <optgroup label="🩺 KMTC Campuses">
                           {allAvailableCampuses.filter(u => u.institutionType === 'kmtc').map((uni) => (
-                            <option key={uni.id} value={uni.id}>{uni.shortName}</option>
+                            <option key={uni.id} value={uni.id}>{uni.name}</option>
                           ))}
                         </optgroup>
-                        <optgroup label="National Polytechnics">
+                        <optgroup label="⚙️ National Polytechnics">
                           {allAvailableCampuses.filter(u => u.institutionType === 'polytechnic').map((uni) => (
-                            <option key={uni.id} value={uni.id}>{uni.shortName}</option>
+                            <option key={uni.id} value={uni.id}>{uni.name}</option>
                           ))}
                         </optgroup>
-                        <optgroup label="TVET Colleges">
+                        <optgroup label="🔧 TVETs, TTIs & Specialized Colleges">
                           {allAvailableCampuses.filter(u => u.institutionType === 'tvet').map((uni) => (
-                            <option key={uni.id} value={uni.id}>{uni.shortName}</option>
+                            <option key={uni.id} value={uni.id}>{uni.name}</option>
                           ))}
                         </optgroup>
                       </select>

@@ -92,7 +92,7 @@ export const CampusCategoryFilterBar: React.FC<CampusCategoryFilterBarProps> = (
       case 'kmtc': return 'All KMTC Campuses';
       case 'polytechnic': return 'All National Polys';
       case 'tvet': return 'All TVET Institutes';
-      default: return 'All 35+ Campuses';
+      default: return 'All 75+ Campuses';
     }
   };
 

@@ -13,6 +13,8 @@ export interface University {
 
 export type ListingType = 'item' | 'hostel' | 'gig' | 'business';
 
+export type VerificationStatus = 'unverified' | 'pending' | 'manual_review' | 'verified' | 'rejected';
+
 // Adalo Collection: Users
 export interface User {
   id: string;
@@ -21,11 +23,74 @@ export interface User {
   phone: string;
   universityId: string;
   campusName: string;
+  faculty?: string;
+  course?: string;
   studentRegNo?: string;
   role: 'student' | 'vendor' | 'admin';
+  vendorId?: string; // Links to Vendor record if role === 'vendor'
   agreedToTerms: boolean; // MANDATORY: blocked if false
   createdAt: string;
   isVerifiedStudent: boolean;
+  verificationStatus?: VerificationStatus;
+  verificationDocUrl?: string;
+  verificationDocName?: string;
+}
+
+// Student Verification Submission Record
+export interface StudentVerification {
+  id: string;
+  userId: string;
+  fullName: string;
+  studentRegNo: string;
+  faculty: string;
+  course: string;
+  universityId: string;
+  campusName: string;
+  documentUrl: string;
+  documentName: string;
+  documentType: 'image' | 'pdf';
+  fileSizeMb?: number;
+  status: VerificationStatus;
+  ocrConfidence?: number;
+  ocrMatchDetails?: {
+    nameMatched: boolean;
+    regNoMatched: boolean;
+    extractedText?: string;
+  };
+  submittedAt: string;
+  reviewedAt?: string;
+  reviewNotes?: string;
+}
+
+// Business Vendor Category
+export type VendorCategory = 
+  | 'Food & Dining' 
+  | 'Printing & Cyber' 
+  | 'Accommodation' 
+  | 'Retail & Groceries' 
+  | 'Tech & Phone Repair' 
+  | 'Fashion & Thrift' 
+  | 'Other Services';
+
+// Adalo Collection: Vendors (isolated from student schema)
+export interface Vendor {
+  id: string;
+  legalBusinessName: string;
+  category: VendorCategory;
+  locationDescription: string;
+  nearestCampusId: string;
+  nearestCampusName: string;
+  contactPersonName: string;
+  phone: string;
+  email: string;
+  nationalIdDocUrl?: string;
+  nationalIdDocName?: string;
+  status: 'review' | 'verified' | 'rejected';
+  rejectionReason?: string;
+  createdAt: string;
+  verifiedAt?: string;
+  totalProductsListed?: number;
+  rating?: number;
 }
 
 // Adalo Collection properties for all Listings (Marketplace, Housing, Jobs, Services)

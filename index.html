@@ -28,6 +28,13 @@
           e.preventDefault();
         }
       });
+      window.addEventListener('unhandledrejection', function(e) {
+        var reasonStr = (e && e.reason) ? String(e.reason) : '';
+        if (reasonStr.indexOf("reading 'send'") !== -1 || reasonStr.indexOf('WebSocket') !== -1) {
+          e.stopImmediatePropagation();
+          e.preventDefault();
+        }
+      });
     </script>
   </head>
   <body class="bg-[#121212] text-slate-100 antialiased selection:bg-[#F3B71B] selection:text-black">

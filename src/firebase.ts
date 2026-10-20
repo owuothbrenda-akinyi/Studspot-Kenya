@@ -24,25 +24,40 @@ import {
   updateDoc,
   deleteDoc
 } from 'firebase/firestore';
-import firebaseConfig from '../firebase-applet-config.json';
 import { User, Listing, StudentVerification, CommunityPost } from './types/index.ts';
+
+// Safely load local firebase config if present (e.g., in AI Studio dev environment)
+// without failing build on GitHub/Vercel when firebase-applet-config.json is gitignored
+const localConfigs = import.meta.glob<Record<string, any>>('../firebase-applet-config.json', { eager: true });
+const localConfig = (localConfigs['../firebase-applet-config.json'] as any)?.default || (localConfigs['../firebase-applet-config.json'] as any) || {};
 
 // Dynamic configuration supporting both Vercel environment variables and local config file
 const activeConfig = {
-  projectId: (import.meta.env.VITE_FIREBASE_PROJECT_ID as string) || firebaseConfig.projectId,
-  appId: (import.meta.env.VITE_FIREBASE_APP_ID as string) || firebaseConfig.appId,
-  apiKey: (import.meta.env.VITE_FIREBASE_API_KEY as string) || firebaseConfig.apiKey,
-  authDomain: (import.meta.env.VITE_FIREBASE_AUTH_DOMAIN as string) || firebaseConfig.authDomain,
-  firestoreDatabaseId: (import.meta.env.VITE_FIREBASE_DATABASE_ID as string) || firebaseConfig.firestoreDatabaseId,
-  storageBucket: (import.meta.env.VITE_FIREBASE_STORAGE_BUCKET as string) || firebaseConfig.storageBucket,
-  messagingSenderId: (import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID as string) || firebaseConfig.messagingSenderId,
+  projectId: (import.meta.env.VITE_FIREBASE_PROJECT_ID as string) || localConfig.projectId || '',
+  appId: (import.meta.env.VITE_FIREBASE_APP_ID as string) || localConfig.appId || '',
+  apiKey: (import.meta.env.VITE_FIREBASE_API_KEY as string) || localConfig.apiKey || '',
+  authDomain: (import.meta.env.VITE_FIREBASE_AUTH_DOMAIN as string) || localConfig.authDomain || '',
+  firestoreDatabaseId: (import.meta.env.VITE_FIREBASE_DATABASE_ID as string) || localConfig.firestoreDatabaseId || 'ai-studio-campushubkenya-628480e8-76c0-48b5-8b37-ee14351506e1',
+  storageBucket: (import.meta.env.VITE_FIREBASE_STORAGE_BUCKET as string) || localConfig.storageBucket || '',
+  messagingSenderId: (import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID as string) || localConfig.messagingSenderId || '',
+};
+
+// Fallback safe configuration to avoid unhandled crashes if env vars are temporarily missing
+const safeConfig = {
+  projectId: activeConfig.projectId || 'studspot-kenya',
+  appId: activeConfig.appId || '1:663762994305:web:placeholder',
+  apiKey: activeConfig.apiKey || 'AIzaSyPlaceholderKeyForVercelSetup',
+  authDomain: activeConfig.authDomain || 'studspot-kenya.firebaseapp.com',
+  firestoreDatabaseId: activeConfig.firestoreDatabaseId,
+  storageBucket: activeConfig.storageBucket || 'studspot-kenya.firebasestorage.app',
+  messagingSenderId: activeConfig.messagingSenderId || '663762994305',
 };
 
 // Initialize Firebase App
-const app = initializeApp(activeConfig);
+const app = initializeApp(safeConfig);
 
 // Initialize Firestore with designated database ID (CRITICAL)
-export const db = getFirestore(app, activeConfig.firestoreDatabaseId);
+export const db = getFirestore(app, safeConfig.firestoreDatabaseId);
 
 // Initialize Auth
 export const auth = getAuth(app);

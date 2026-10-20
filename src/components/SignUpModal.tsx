@@ -375,19 +375,15 @@ export const SignUpModal: React.FC<SignUpModalProps> = ({
                     <label className="text-xs font-bold text-neutral-300">
                       Email Address <span className="text-rose-400">*</span>
                     </label>
-                    <span className="text-[10px] text-neutral-400">Personal / Standard</span>
                   </div>
                   <input
                     type="email"
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="e.g. brenda@gmail.com or yahoo.com"
+                    placeholder="e.g. brenda@gmail.com"
                     className="w-full px-3 py-2 text-xs bg-[#242424] text-white rounded-xl border border-neutral-700 focus:border-[#F3B71B] outline-none"
                   />
-                  <span className="text-[10px] text-neutral-400 mt-0.5 block">
-                    Use any valid Gmail, Yahoo or Outlook. Signups are never blocked.
-                  </span>
                 </div>
 
                 <div>

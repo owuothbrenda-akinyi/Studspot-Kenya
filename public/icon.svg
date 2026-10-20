@@ -1,48 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
-    <linearGradient id="darkBgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#242424" />
-      <stop offset="50%" stop-color="#181818" />
-      <stop offset="100%" stop-color="#0E0E0E" />
-    </linearGradient>
-    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#FFE885" />
-      <stop offset="50%" stop-color="#F3B71B" />
-      <stop offset="100%" stop-color="#C99209" />
-    </linearGradient>
-    <linearGradient id="goldAccent" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#FFF3B0" />
-      <stop offset="100%" stop-color="#F3B71B" />
+    <clipPath id="squircleClip">
+      <rect x="0" y="0" width="512" height="512" rx="104" ry="104" />
+    </clipPath>
+    <linearGradient id="goldBorderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFE082" />
+      <stop offset="50%" stop-color="#D4AF37" />
+      <stop offset="100%" stop-color="#996515" />
     </linearGradient>
   </defs>
   
-  <!-- Rounded Base Background (Deep Obsidian & Charcoal) -->
-  <rect width="512" height="512" rx="112" fill="url(#darkBgGrad)" />
-  <rect x="12" y="12" width="488" height="488" rx="100" fill="none" stroke="url(#goldGrad)" stroke-width="8" stroke-opacity="0.75" />
+  <!-- Base background squircle -->
+  <rect width="512" height="512" rx="104" fill="#121212" />
   
-  <!-- Subtle glowing gold accent ring -->
-  <circle cx="256" cy="215" r="142" fill="none" stroke="url(#goldGrad)" stroke-width="6" stroke-opacity="0.35" stroke-dasharray="14 10" />
+  <!-- Embedded High-Resolution Official Gold & Black STUDSPOT Icon -->
+  <image href="/studspot-gold-icon.png" width="512" height="512" clip-path="url(#squircleClip)" preserveAspectRatio="xMidYMid slice" />
   
-  <!-- Location Pin & Comrade Mortarboard in Gold -->
-  <g transform="translate(256, 205)">
-    <!-- Map Location Pin Outline in Rich Gold -->
-    <path d="M 0 -105 C -65 -105 -105 -55 -105 10 C -105 75 0 148 0 148 C 0 148 105 75 105 10 C 105 -55 65 -105 0 -105 Z" fill="#141414" stroke="url(#goldGrad)" stroke-width="14" stroke-linejoin="round" />
-    
-    <!-- Central Marketplace Diamond in Warm Gold -->
-    <path d="M -42 -12 L 0 -54 L 42 -12 L 0 30 Z" fill="url(#goldAccent)" />
-    
-    <!-- Graduation Mortarboard Top (Gold & Charcoal) -->
-    <polygon points="0,-52 -74,-24 0,4 74,-24" fill="#F3B71B" stroke="#FFE885" stroke-width="3" />
-    
-    <!-- Cap Base -->
-    <path d="M -40 -12 L -40 20 Q 0 36 40 20 L 40 -12" fill="#242424" stroke="url(#goldGrad)" stroke-width="3" />
-    
-    <!-- Tassel in Bright Gold -->
-    <path d="M 54 -20 Q 80 0 80 38" fill="none" stroke="url(#goldAccent)" stroke-width="6" stroke-linecap="round" />
-    <circle cx="80" cy="42" r="7" fill="#F3B71B" stroke="#FFE885" stroke-width="2" />
-  </g>
-  
-  <!-- Typography STUDSPOT in Gold & White -->
-  <text x="256" y="420" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-size="46" font-weight="900" fill="#FFFFFF" text-anchor="middle" letter-spacing="4">STUDSPOT</text>
-  <text x="256" y="456" font-family="'Outfit', system-ui, sans-serif" font-size="18" font-weight="800" fill="#F3B71B" text-anchor="middle" letter-spacing="6">CAMPUS APP · KENYA</text>
+  <!-- Subtle Chamfered Gold Border Overlay -->
+  <rect x="6" y="6" width="500" height="500" rx="98" fill="none" stroke="url(#goldBorderGrad)" stroke-width="12" stroke-opacity="0.85" />
 </svg>

@@ -351,6 +351,23 @@ export const StudentVerifyModal: React.FC<StudentVerifyModalProps> = ({
                   <span>{errorMsg}</span>
                 </div>
               )}
+              {/* Registration type info banner */}
+              <div className="p-3 rounded-2xl bg-gradient-to-r from-neutral-900 to-[#1e1e1e] border border-neutral-700/80 text-xs text-neutral-300 space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-white flex items-center gap-1.5 text-[11px]">
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                    Personal Email & Student ID Verification
+                  </span>
+                  {currentUser?.email && (
+                    <span className="text-[10px] text-neutral-400 font-mono">
+                      {currentUser.email}
+                    </span>
+                  )}
+                </div>
+                <p className="text-[11px] text-neutral-400 leading-relaxed">
+                  Registered with a personal email (e.g., <span className="text-white font-mono">@gmail.com</span>)? Simply enter your official <strong>Student Registration Number</strong> and upload your <strong>Student ID Card</strong>. The system will match your Reg No and student name to unlock your verified Comrade Badge!
+                </p>
+              </div>
 
               {/* 1. Full Legal Name */}
               <div>

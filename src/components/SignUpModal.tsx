@@ -1,5 +1,23 @@
 import React, { useState } from 'react';
-import { X, ShieldCheck, UserCheck, AlertCircle, Lock, Mail, Phone, School, CheckSquare, Square, PenTool, GraduationCap } from 'lucide-react';
+import { 
+  X, 
+  ShieldCheck, 
+  UserCheck, 
+  AlertCircle, 
+  Lock, 
+  Mail, 
+  Phone, 
+  School, 
+  CheckSquare, 
+  Square, 
+  PenTool, 
+  GraduationCap,
+  CheckCircle2,
+  MailCheck,
+  Send,
+  Info,
+  Sparkles
+} from 'lucide-react';
 import { User, InstitutionType } from '../types';
 import { UNIVERSITIES } from '../data/seedData';
 import { saveCustomCampus, getAllCampuses } from '../utils/campusStore';
@@ -21,13 +39,19 @@ export const SignUpModal: React.FC<SignUpModalProps> = ({
 
   const [mode, setMode] = useState<'signup' | 'login'>('signup');
   const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(''); // Standard personal email (e.g., Gmail, Yahoo) or work
+  const [studentEmail, setStudentEmail] = useState(''); // Optional student institutional email (.ac.ke)
   const [phone, setPhone] = useState('');
   const [universityId, setUniversityId] = useState('uon');
   const [campusName, setCampusName] = useState('Main Campus');
   const [studentRegNo, setStudentRegNo] = useState('');
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const [successNotice, setSuccessNotice] = useState('');
+
+  // Institutional email confirmation link simulation
+  const [isEmailConfirmed, setIsEmailConfirmed] = useState(false);
+  const [isConfirmingEmail, setIsConfirmingEmail] = useState(false);
 
   // Custom campus typing support
   const [isCustomCampus, setIsCustomCampus] = useState(false);
@@ -37,6 +61,29 @@ export const SignUpModal: React.FC<SignUpModalProps> = ({
 
   const allAvailableCampuses = getAllCampuses();
   const selectedUni = allAvailableCampuses.find(u => u.id === universityId) || allAvailableCampuses[1] || UNIVERSITIES[1];
+
+  // Helper: Detect whether an email is an institutional address (.ac.ke or .edu)
+  const isInstitutionalEmail = (addr: string) => {
+    if (!addr) return false;
+    const clean = addr.trim().toLowerCase();
+    return clean.endsWith('.ac.ke') || clean.includes('.ac.ke') || clean.endsWith('.edu') || clean.includes('students.');
+  };
+
+  const detectedInstitutionalEmail = isInstitutionalEmail(studentEmail)
+    ? studentEmail.trim()
+    : isInstitutionalEmail(email)
+      ? email.trim()
+      : '';
+
+  const handleConfirmInstitutionalLink = () => {
+    if (!detectedInstitutionalEmail) return;
+    setIsConfirmingEmail(true);
+    setTimeout(() => {
+      setIsConfirmingEmail(false);
+      setIsEmailConfirmed(true);
+      setSuccessNotice(`Verification link confirmed for ${detectedInstitutionalEmail}! Your account will receive the "Verified Email" Comrade Badge.`);
+    }, 600);
+  };
 
   const handleUniversityChange = (id: string) => {
     if (id === 'other_custom') {
@@ -64,7 +111,7 @@ export const SignUpModal: React.FC<SignUpModalProps> = ({
       }
 
       if (!fullName.trim() || !email.trim()) {
-        setErrorMsg('Please fill in your name and email address.');
+        setErrorMsg('Please fill in your legal name and primary personal email address.');
         return;
       }
 
@@ -84,10 +131,14 @@ export const SignUpModal: React.FC<SignUpModalProps> = ({
         finalCampusName = `${typedName} (${typedZone})`;
       }
 
+      // Check if user has verified via institutional .ac.ke link
+      const hasVerifiedInstitutionalEmail = isEmailConfirmed || !!detectedInstitutionalEmail;
+
       const newUser: User = {
         id: `usr-${Date.now()}`,
         fullName: fullName.trim(),
-        email: email.trim(),
+        email: email.trim(), // Standard personal email (e.g. Gmail/Yahoo) or whatever user typed
+        studentEmail: studentEmail.trim() || (isInstitutionalEmail(email) ? email.trim() : undefined),
         phone: phone.trim() || '+254700000000',
         universityId: finalUniId,
         campusName: finalCampusName,
@@ -95,22 +146,29 @@ export const SignUpModal: React.FC<SignUpModalProps> = ({
         role: 'student',
         agreedToTerms: true,
         createdAt: new Date().toISOString().split('T')[0],
-        isVerifiedStudent: !!studentRegNo.trim(),
+        isVerifiedStudent: hasVerifiedInstitutionalEmail || !!studentRegNo.trim(),
+        isEmailVerified: hasVerifiedInstitutionalEmail,
+        emailVerifiedBadge: hasVerifiedInstitutionalEmail,
+        verificationMethod: hasVerifiedInstitutionalEmail ? 'institutional_email' : (studentRegNo.trim() ? 'student_id_card' : 'none'),
+        verificationStatus: hasVerifiedInstitutionalEmail ? 'verified' : (studentRegNo.trim() ? 'pending' : 'unverified'),
       };
 
       onUserRegistered(newUser);
       onClose();
     } else {
-      // Login mode demo
+      // Login mode demo: Accepts any email (Gmail, Yahoo, .ac.ke, etc.)
       if (!email.trim()) {
         setErrorMsg('Please enter your registered email address.');
         return;
       }
 
+      const isInst = isInstitutionalEmail(email);
+
       const existingUser: User = {
         id: `usr-demo-${Date.now()}`,
         fullName: email.split('@')[0] || 'Comrade Student',
         email: email.trim(),
+        studentEmail: isInst ? email.trim() : undefined,
         phone: '+254712345678',
         universityId: 'uon',
         campusName: 'Main Campus',
@@ -118,6 +176,10 @@ export const SignUpModal: React.FC<SignUpModalProps> = ({
         agreedToTerms: true,
         createdAt: '2026-09-01',
         isVerifiedStudent: true,
+        isEmailVerified: isInst,
+        emailVerifiedBadge: isInst,
+        verificationMethod: isInst ? 'institutional_email' : 'student_id_card',
+        verificationStatus: 'verified',
       };
 
       onUserRegistered(existingUser);
@@ -129,7 +191,8 @@ export const SignUpModal: React.FC<SignUpModalProps> = ({
     const demoUser: User = {
       id: role === 'admin' ? 'usr-admin' : 'usr-demo-student',
       fullName: role === 'admin' ? 'STUDSPOT Platform Admin' : 'Faith Chebet (Comrade)',
-      email: role === 'admin' ? 'admin@studspot.co.ke' : 'fchebet@students.uonbi.ac.ke',
+      email: role === 'admin' ? 'admin@studspot.co.ke' : 'fchebet@gmail.com',
+      studentEmail: role === 'student' ? 'fchebet@students.uonbi.ac.ke' : undefined,
       phone: '+254722998877',
       universityId: 'uon',
       campusName: 'Chiromo Campus',
@@ -138,6 +201,10 @@ export const SignUpModal: React.FC<SignUpModalProps> = ({
       agreedToTerms: true,
       createdAt: '2026-09-01',
       isVerifiedStudent: true,
+      isEmailVerified: role === 'student',
+      emailVerifiedBadge: role === 'student',
+      verificationMethod: role === 'student' ? 'institutional_email' : 'none',
+      verificationStatus: 'verified',
     };
     onUserRegistered(demoUser);
     onClose();
@@ -186,6 +253,7 @@ export const SignUpModal: React.FC<SignUpModalProps> = ({
 
           {mode === 'signup' ? (
             <>
+              {/* Full Legal Name */}
               <div>
                 <label className="block text-xs font-bold text-neutral-300 mb-1">Full Legal Name</label>
                 <input
@@ -198,29 +266,125 @@ export const SignUpModal: React.FC<SignUpModalProps> = ({
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-2.5">
+              {/* Personal Email & M-Pesa Phone */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 <div>
-                  <label className="block text-xs font-bold text-neutral-300 mb-1">Student / Work Email</label>
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="text-xs font-bold text-neutral-300">
+                      Email Address <span className="text-rose-400">*</span>
+                    </label>
+                    <span className="text-[10px] text-neutral-400">Personal / Standard</span>
+                  </div>
                   <input
                     type="email"
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="name@students.uonbi.ac.ke"
+                    placeholder="e.g. brenda@gmail.com or yahoo.com"
                     className="w-full px-3 py-2 text-xs bg-[#242424] text-white rounded-xl border border-neutral-700 focus:border-[#F3B71B] outline-none"
                   />
+                  <span className="text-[10px] text-neutral-400 mt-0.5 block">
+                    Use any valid Gmail, Yahoo or Outlook. Signups are never blocked.
+                  </span>
                 </div>
+
                 <div>
-                  <label className="block text-xs font-bold text-neutral-300 mb-1">M-Pesa Phone</label>
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="text-xs font-bold text-neutral-300">
+                      M-Pesa Phone <span className="text-rose-400">*</span>
+                    </label>
+                    <span className="text-[10px] text-neutral-400 font-mono">+254</span>
+                  </div>
                   <input
                     type="tel"
+                    required
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="0712 345 678"
                     className="w-full px-3 py-2 text-xs bg-[#242424] text-white rounded-xl border border-neutral-700 focus:border-[#F3B71B] outline-none font-mono"
                   />
+                  <span className="text-[10px] text-neutral-400 mt-0.5 block">
+                    For direct M-Pesa escrow payments & buyer inquiries.
+                  </span>
                 </div>
               </div>
+
+              {/* Student / Institutional Email (Optional) */}
+              <div className="p-3 bg-[#1F1F1F] rounded-2xl border border-neutral-800 space-y-2">
+                <div className="flex items-center justify-between">
+                  <label className="text-xs font-bold text-neutral-300 flex items-center gap-1.5">
+                    <GraduationCap className="w-3.5 h-3.5 text-[#F3B71B]" />
+                    <span>Student Institutional Email</span>
+                    <span className="text-neutral-500 font-normal text-[11px]">(Optional)</span>
+                  </label>
+                  <span className="text-[10px] bg-[#F3B71B]/20 text-[#F3B71B] font-mono px-1.5 py-0.2 rounded font-bold">
+                    .ac.ke
+                  </span>
+                </div>
+                <input
+                  type="email"
+                  value={studentEmail}
+                  onChange={(e) => setStudentEmail(e.target.value)}
+                  placeholder="e.g. bawuor@students.uonbi.ac.ke or @kisiiuniversity.ac.ke"
+                  className="w-full px-3 py-2 text-xs bg-[#282828] text-white rounded-xl border border-neutral-700 focus:border-[#F3B71B] outline-none font-mono"
+                />
+                <p className="text-[10px] text-neutral-400 leading-snug">
+                  Only university students are issued institutional student emails. TVET & KMTC comrades can leave this blank! If entered, confirm the link below for an instant <strong>"Verified Email"</strong> badge.
+                </p>
+
+                {/* Live Institutional Email Link Confirmation Box */}
+                {detectedInstitutionalEmail ? (
+                  <div className="mt-2 p-2.5 bg-emerald-950/40 border border-emerald-500/40 rounded-xl space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-bold text-emerald-400 flex items-center gap-1">
+                        <Sparkles className="w-3.5 h-3.5" />
+                        Institutional Email Detected
+                      </span>
+                      {isEmailConfirmed ? (
+                        <span className="text-[10px] bg-emerald-500/20 text-emerald-300 font-bold px-2 py-0.5 rounded-full flex items-center gap-1">
+                          <CheckCircle2 className="w-3 h-3" /> Link Confirmed
+                        </span>
+                      ) : (
+                        <span className="text-[10px] text-emerald-300/80 font-mono">Eligible for Badge</span>
+                      )}
+                    </div>
+
+                    <p className="text-[11px] text-neutral-300">
+                      {isEmailConfirmed ? (
+                        <span className="text-emerald-300">
+                          Verification link confirmed for <strong className="font-mono text-white">{detectedInstitutionalEmail}</strong>! The official <strong>"Verified Email"</strong> Comrade Badge is ready.
+                        </span>
+                      ) : (
+                        <span>
+                          Confirm link for <strong className="font-mono text-white">{detectedInstitutionalEmail}</strong> to automatically grant your account the <strong>"Verified Email"</strong> badge!
+                        </span>
+                      )}
+                    </p>
+
+                    {!isEmailConfirmed && (
+                      <button
+                        type="button"
+                        onClick={handleConfirmInstitutionalLink}
+                        disabled={isConfirmingEmail}
+                        className="w-full py-1.5 px-3 bg-emerald-500 hover:bg-emerald-400 text-black text-xs font-bold rounded-xl transition flex items-center justify-center gap-1.5 shadow-sm"
+                      >
+                        <MailCheck className="w-3.5 h-3.5" />
+                        <span>{isConfirmingEmail ? 'Confirming Link...' : 'Confirm Institutional Email Link Now'}</span>
+                      </button>
+                    )}
+                  </div>
+                ) : null}
+              </div>
+
+              {/* Personal Email reassurance info pill */}
+              {!detectedInstitutionalEmail && email.trim() && (
+                <div className="p-2.5 bg-neutral-900 border border-neutral-800 rounded-xl flex items-start gap-2 text-xs text-neutral-400">
+                  <Info className="w-3.5 h-3.5 text-[#F3B71B] shrink-0 mt-0.5" />
+                  <span className="text-[11px] leading-relaxed">
+                    Personal email accepted (<strong className="text-neutral-200">{email}</strong>). You can easily verify your Comrade status later using your Student Reg Number if it matches your uploaded Student ID Card.
+                  </span>
+                </div>
+              )}
 
               {/* Institution Selection or Custom Input */}
               <div className="space-y-2">

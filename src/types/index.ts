@@ -31,6 +31,10 @@ export interface User {
   agreedToTerms: boolean; // MANDATORY: blocked if false
   createdAt: string;
   isVerifiedStudent: boolean;
+  studentEmail?: string; // Optional student institutional email (.ac.ke)
+  isEmailVerified?: boolean; // Granted upon confirming institutional email link
+  emailVerifiedBadge?: boolean; // Institutional comrade badge
+  verificationMethod?: 'institutional_email' | 'student_id_card' | 'none';
   verificationStatus?: VerificationStatus;
   verificationDocUrl?: string;
   verificationDocName?: string;

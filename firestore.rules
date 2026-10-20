@@ -1,0 +1,195 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ==========================================
+    // 1. GLOBAL SAFETY NET (DEFAULT-DENY CATCH-ALL)
+    // ==========================================
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // ==========================================
+    // 2. CORE SECURITY & AUTH HELPER PRIMITIVES
+    // ==========================================
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Zero-Trust Admin Check with Email Spoofing Guard
+    function isAdmin() {
+      return isSignedIn() && (
+        (request.auth.token.email == 'owuothbrenda@gmail.com' && request.auth.token.email_verified == true) ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    // ==========================================
+    // 3. SCHEMA VALIDATION BLUEPRINTS
+    // ==========================================
+    function isValidUser(data) {
+      return data.id is string && data.id.size() <= 128 &&
+             data.fullName is string && data.fullName.size() > 0 && data.fullName.size() <= 100 &&
+             data.email is string && data.email.size() > 0 && data.email.size() <= 120 &&
+             data.universityId is string && data.universityId.size() <= 64 &&
+             data.campusName is string && data.campusName.size() <= 120 &&
+             data.role in ['student', 'vendor', 'admin'] &&
+             data.agreedToTerms == true;
+    }
+
+    function isValidListing(data) {
+      return data.id is string && data.id.size() <= 128 &&
+             data.ownerId is string && data.ownerId.size() <= 128 &&
+             data.title is string && data.title.size() > 0 && data.title.size() <= 150 &&
+             data.price is number && data.price >= 0 && data.price <= 100000000 &&
+             data.universityId is string && data.universityId.size() <= 64 &&
+             data.campusName is string && data.campusName.size() <= 120;
+    }
+
+    function isValidVerification(data) {
+      return data.userId is string && data.userId.size() <= 128 &&
+             data.fullName is string && data.fullName.size() > 0 && data.fullName.size() <= 100 &&
+             data.studentRegNo is string && data.studentRegNo.size() > 0 && data.studentRegNo.size() <= 60 &&
+             data.status in ['unverified', 'pending', 'manual_review', 'verified', 'rejected'];
+    }
+
+    function isValidCommunityPost(data) {
+      return data.id is string && data.id.size() <= 128 &&
+             data.ownerId is string && data.ownerId.size() <= 128 &&
+             data.title is string && data.title.size() > 0 && data.title.size() <= 150 &&
+             data.content is string && data.content.size() > 0 && data.content.size() <= 3000 &&
+             data.universityId is string && data.universityId.size() <= 64;
+    }
+
+    // ==========================================
+    // 4. RESTRICTED ENDPOINTS & COLLECTIONS
+    // ==========================================
+
+    // Connection testing endpoint for health checks
+    match /test/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Admin role store
+    match /admins/{adminId} {
+      allow read: if isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // Users Collection (Strict PII Isolation & Privilege Escalation Guard)
+    match /users/{userId} {
+      // PII Blanket Protection: A user can only fetch their own private profile; only admins can list users.
+      allow get: if isOwner(userId) || isAdmin();
+      allow list: if isAdmin();
+
+      // Creation: must own document, ID must match auth UID, cannot self-assign admin role unless already admin
+      allow create: if isOwner(userId) &&
+                       isValidId(userId) &&
+                       incoming().id == userId &&
+                       isValidUser(incoming()) &&
+                       (incoming().role != 'admin' || isAdmin());
+
+      // Update: User cannot elevate their own role or self-validate comrade verification status
+      allow update: if (
+        isOwner(userId) &&
+        isValidUser(incoming()) &&
+        incoming().id == userId &&
+        !incoming().diff(existing()).affectedKeys().hasAny(['role', 'isVerifiedStudent', 'isEmailVerified', 'emailVerifiedBadge'])
+      ) || isAdmin();
+
+      allow delete: if isAdmin();
+    }
+
+    // Listings Collection (Campus items, hostels, gigs, services)
+    match /listings/{listingId} {
+      // Public marketplace reads
+      allow get: if true;
+      allow list: if true;
+
+      // Creation: authenticated users only, ownerId must strictly match auth.uid, cannot self-approve
+      allow create: if isSignedIn() &&
+                       isValidId(listingId) &&
+                       incoming().ownerId == request.auth.uid &&
+                       isValidListing(incoming()) &&
+                       (incoming().isApproved == false || isAdmin());
+
+      // Update: Owner can update their listing, but CANNOT self-approve (isApproved) or forge payment (isFeePaid)
+      allow update: if (
+        isSignedIn() &&
+        existing().ownerId == request.auth.uid &&
+        incoming().ownerId == existing().ownerId &&
+        isValidListing(incoming()) &&
+        !incoming().diff(existing()).affectedKeys().hasAny(['isApproved', 'isFeePaid'])
+      ) || isAdmin();
+
+      allow delete: if isSignedIn() && (
+        existing().ownerId == request.auth.uid ||
+        isAdmin()
+      );
+    }
+
+    // Student Verifications (ID card uploads for comrade badge review)
+    match /studentVerifications/{verificationId} {
+      // Leakage guard: Only the submitting student or admin can access student ID documents
+      allow get: if isSignedIn() && (
+                    resource.data.userId == request.auth.uid ||
+                    isAdmin()
+                 );
+      allow list: if isSignedIn() && (
+                    (resource != null && resource.data.userId == request.auth.uid) ||
+                    isAdmin()
+                  );
+
+      // Submission: Can only submit for oneself, status must start in pending/unverified
+      allow create: if isSignedIn() &&
+                       isValidId(verificationId) &&
+                       incoming().userId == request.auth.uid &&
+                       isValidVerification(incoming()) &&
+                       (incoming().status in ['pending', 'unverified'] || isAdmin());
+
+      // Only administrators can approve or reject verification records
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // Community Posts (Campus Buzz, Lost & Found, Rideshares)
+    match /communityPosts/{postId} {
+      allow get: if true;
+      allow list: if true;
+
+      allow create: if isSignedIn() &&
+                       isValidId(postId) &&
+                       incoming().ownerId == request.auth.uid &&
+                       isValidCommunityPost(incoming());
+
+      allow update: if (
+        isSignedIn() &&
+        existing().ownerId == request.auth.uid &&
+        incoming().ownerId == existing().ownerId &&
+        isValidCommunityPost(incoming())
+      ) || isAdmin();
+
+      allow delete: if isSignedIn() && (
+        existing().ownerId == request.auth.uid ||
+        isAdmin()
+      );
+    }
+  }
+}

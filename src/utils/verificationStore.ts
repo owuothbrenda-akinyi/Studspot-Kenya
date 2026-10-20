@@ -1,4 +1,5 @@
 import { StudentVerification, Vendor, VendorCategory, VerificationStatus, User } from '../types';
+import { submitStudentVerificationDoc } from '../firebase';
 
 const STUDENT_VERIFICATIONS_KEY = 'studspot_student_verifications';
 const VENDORS_KEY = 'studspot_vendors';
@@ -288,6 +289,9 @@ export async function submitStudentVerification(payload: StudentVerifyPayload): 
   const list = getStudentVerifications();
   const updated = [record, ...list.filter(v => v.userId !== payload.userId)];
   saveStudentVerifications(updated);
+
+  // Sync to Firebase Firestore
+  submitStudentVerificationDoc(record).catch(err => console.warn('Firestore verification doc notice:', err));
 
   return {
     success: true,

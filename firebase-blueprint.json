@@ -1,0 +1,117 @@
+{
+  "entities": {
+    "users": {
+      "title": "User",
+      "description": "User profile containing authentication and student verification details.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique user identifier matching auth uid." },
+        "fullName": { "type": "string", "description": "User's full name.", "maxLength": 100 },
+        "email": { "type": "string", "description": "Primary login email address.", "maxLength": 120 },
+        "phone": { "type": "string", "description": "Contact phone number in Kenya (e.g., 0712345678).", "maxLength": 20 },
+        "universityId": { "type": "string", "description": "Campus/Institution ID.", "maxLength": 64 },
+        "campusName": { "type": "string", "description": "Name of university, KMTC, or TVET campus.", "maxLength": 120 },
+        "faculty": { "type": "string", "description": "Optional faculty or department name.", "maxLength": 120 },
+        "course": { "type": "string", "description": "Optional course name.", "maxLength": 120 },
+        "studentRegNo": { "type": "string", "description": "Optional student registration number.", "maxLength": 60 },
+        "role": { "type": "string", "enum": ["student", "vendor", "admin"] },
+        "agreedToTerms": { "type": "boolean", "description": "Mandatory agreement to Studspot terms." },
+        "createdAt": { "type": "string", "description": "ISO timestamp of account creation." },
+        "isVerifiedStudent": { "type": "boolean", "description": "Whether the comrade identity is verified." },
+        "studentEmail": { "type": "string", "description": "Optional institutional email ending in .ac.ke.", "maxLength": 120 },
+        "isEmailVerified": { "type": "boolean", "description": "Verified status of institutional email." },
+        "emailVerifiedBadge": { "type": "boolean", "description": "Badge indicator for student comrades." },
+        "verificationMethod": { "type": "string", "enum": ["institutional_email", "student_id_card", "none"] },
+        "verificationStatus": { "type": "string", "enum": ["unverified", "pending", "manual_review", "verified", "rejected"] }
+      },
+      "required": ["id", "fullName", "email", "universityId", "campusName", "role", "agreedToTerms", "createdAt"]
+    },
+    "listings": {
+      "title": "Listing",
+      "description": "Marketplace, accommodation, gig or business listings for campus communities.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique listing identifier." },
+        "ownerId": { "type": "string", "description": "UID of seller/creator." },
+        "type": { "type": "string", "enum": ["item", "hostel", "gig", "business"] },
+        "title": { "type": "string", "description": "Listing title.", "maxLength": 120 },
+        "description": { "type": "string", "description": "Detailed description.", "maxLength": 2000 },
+        "price": { "type": "number", "description": "Price in KSh (KES)." },
+        "priceLabel": { "type": "string", "description": "Optional suffix like /mo or /semester.", "maxLength": 30 },
+        "category": { "type": "string", "description": "Listing category.", "maxLength": 80 },
+        "image": { "type": "string", "description": "Image URL or data URI." },
+        "universityId": { "type": "string", "description": "Associated campus identifier." },
+        "campusName": { "type": "string", "description": "Campus name." },
+        "institutionType": { "type": "string", "enum": ["all", "university", "kmtc", "polytechnic", "tvet"] },
+        "isApproved": { "type": "boolean", "description": "Listing moderation status." },
+        "isFeePaid": { "type": "boolean", "description": "KSh 80 listing fee payment status." },
+        "mpesaRef": { "type": "string", "description": "M-Pesa transaction reference code.", "maxLength": 30 },
+        "createdAt": { "type": "string", "description": "ISO timestamp of creation." },
+        "viewsCount": { "type": "number" },
+        "likesCount": { "type": "number" },
+        "isSold": { "type": "boolean" }
+      },
+      "required": ["id", "ownerId", "type", "title", "price", "universityId", "campusName", "createdAt"]
+    },
+    "studentVerifications": {
+      "title": "StudentVerification",
+      "description": "Student ID card upload records for manual or OCR verification.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique submission ID." },
+        "userId": { "type": "string", "description": "UID of the student." },
+        "fullName": { "type": "string", "maxLength": 100 },
+        "studentRegNo": { "type": "string", "maxLength": 60 },
+        "faculty": { "type": "string", "maxLength": 120 },
+        "course": { "type": "string", "maxLength": 120 },
+        "universityId": { "type": "string", "maxLength": 64 },
+        "campusName": { "type": "string", "maxLength": 120 },
+        "documentUrl": { "type": "string" },
+        "documentName": { "type": "string", "maxLength": 120 },
+        "documentType": { "type": "string", "enum": ["image", "pdf"] },
+        "status": { "type": "string", "enum": ["unverified", "pending", "manual_review", "verified", "rejected"] },
+        "submittedAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "fullName", "studentRegNo", "universityId", "status", "submittedAt"]
+    },
+    "communityPosts": {
+      "title": "CommunityPost",
+      "description": "Campus buzz, lost and found, rideshares, and study groups.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "ownerId": { "type": "string" },
+        "type": { "type": "string", "enum": ["lost_found", "rideshare", "study_group", "alert"] },
+        "title": { "type": "string", "maxLength": 120 },
+        "content": { "type": "string", "maxLength": 2000 },
+        "author": { "type": "string", "maxLength": 100 },
+        "authorRole": { "type": "string", "maxLength": 60 },
+        "universityId": { "type": "string", "maxLength": 64 },
+        "campusName": { "type": "string", "maxLength": 120 },
+        "timeAgo": { "type": "string" },
+        "repliesCount": { "type": "number" },
+        "likesCount": { "type": "number" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "ownerId", "type", "title", "content", "author", "universityId", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "users",
+      "description": "Stores user profiles with role, campus, and comrade verification status."
+    },
+    "/listings/{listingId}": {
+      "schema": "listings",
+      "description": "Stores campus marketplace items, hostels, gigs, and services."
+    },
+    "/studentVerifications/{verificationId}": {
+      "schema": "studentVerifications",
+      "description": "Stores comrade student ID card submissions for review."
+    },
+    "/communityPosts/{postId}": {
+      "schema": "communityPosts",
+      "description": "Stores campus feed posts, lost & found, alerts, and rideshares."
+    }
+  }
+}

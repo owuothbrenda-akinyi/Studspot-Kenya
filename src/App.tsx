@@ -29,6 +29,14 @@ import {
 import { Listing, CommunityPost, User, ListingType, InstitutionType } from './types';
 import { INITIAL_LISTINGS, INITIAL_COMMUNITY_POSTS, INITIAL_USERS, UNIVERSITIES } from './data/seedData';
 import { getAllCampuses } from './utils/campusStore';
+import { 
+  auth, 
+  onAuthStateChanged, 
+  fetchUserProfile, 
+  syncUserProfile, 
+  createListingDocument, 
+  subscribeToListings 
+} from './firebase';
 import { MobileHeader } from './components/MobileHeader';
 import { BottomNavBar, CategoryFilterPills, NavTabType } from './components/NavigationTabs';
 import { CampusCategoryFilterBar } from './components/CampusCategoryFilterBar';
@@ -264,6 +272,42 @@ export default function App() {
   }, [savedIds]);
 
   // Wishlist toggle
+  // Firebase Auth & Real-Time Firestore Sync
+  useEffect(() => {
+    // 1. Auth state synchronization
+    const unsubscribeAuth = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
+        try {
+          const profile = await fetchUserProfile(firebaseUser.uid);
+          if (profile) {
+            setCurrentUser(profile);
+            setUsers(prev => [profile, ...prev.filter(u => u.id !== profile.id)]);
+          }
+        } catch (e) {
+          console.warn('Firebase profile fetch note:', e);
+        }
+      }
+    });
+
+    // 2. Real-time listings subscription from Firestore
+    const unsubscribeListings = subscribeToListings((remoteListings) => {
+      if (remoteListings && remoteListings.length > 0) {
+        setListings(prev => {
+          const remoteMap = new Map(remoteListings.map(l => [l.id, l]));
+          const merged = [...remoteListings, ...prev.filter(l => !remoteMap.has(l.id))];
+          return merged;
+        });
+      }
+    }, (err) => {
+      console.warn('Real-time listings notice:', err);
+    });
+
+    return () => {
+      unsubscribeAuth();
+      unsubscribeListings();
+    };
+  }, []);
+
   const toggleSave = (id: string, e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
     setSavedIds(prev => 
@@ -275,6 +319,7 @@ export default function App() {
   const handleUserRegistered = (newUser: User) => {
     setUsers(prev => [newUser, ...prev.filter(u => u.id !== newUser.id)]);
     setCurrentUser(newUser);
+    syncUserProfile(newUser).catch(err => console.warn('Background Firestore user sync notice:', err));
   };
 
   // Workflow Action 2: Listing Creation -> Redirects to Payment Screen (KSh 80)
@@ -282,6 +327,7 @@ export default function App() {
     // Save to database collection with isApproved: false
     setListings(prev => [newListing, ...prev]);
     setIsPostModalOpen(false);
+    createListingDocument(newListing).catch(err => console.warn('Background Firestore listing creation notice:', err));
     
     // Redirect immediately to Pending Payment / Instruction Screen!
     setPaymentListing(newListing);
